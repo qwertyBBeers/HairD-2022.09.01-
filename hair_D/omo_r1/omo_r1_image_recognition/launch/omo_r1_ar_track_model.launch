@@ -1,0 +1,3 @@
+<launch>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find omo_r1_image_recognition)/rviz/ar_track.rviz"/>
+</launch>
