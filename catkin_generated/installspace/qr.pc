@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: qr
+Description: Description of qr
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
