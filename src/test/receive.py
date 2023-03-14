@@ -1,13 +1,13 @@
 import rospy
-from std_msgs.msg import String
+from geometry_msgs.msg import Point
 
 def callback(data):
-    rospy.loginfo(rospy.get_caller_id() + "centerpoint is %s",data.data)
+    rospy.loginfo("centerpoint is %d %d",data.x,data.y)
 
 def listener():
 
     rospy.init_node('qr_receive',anonymous =True)
-    rospy.Subscriber("qr",String,callback)
+    rospy.Subscriber("qr",Point,callback)
     rospy.spin()
 
 if __name__ == '__main__':

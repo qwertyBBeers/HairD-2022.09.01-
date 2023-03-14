@@ -37,7 +37,7 @@ from pathlib import Path
 
 import torch
 import rospy
-from std_msgs.msg import String
+from geometry_msgs.msg import Point
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # YOLOv5 root directory
@@ -166,16 +166,21 @@ def run(
 
                 # Write results
                 for *xyxy, conf, cls in reversed(det):
-
                     center_point = round((int(xyxy[0])+int(xyxy[2]))/2),round((int(xyxy[1])+int(xyxy[3]))/2)
                     cv2.circle(im0,center_point,5,(0,255,0),2)
                     cv2.putText(im0,str(center_point),center_point,cv2.FONT_HERSHEY_PLAIN,2,(0,225,0))
-                    
                     # send to receive.py for qr_center_point
-                    pub = rospy. Publisher('qr',String, queue_size=10)
-                    rospy.init_node('qr_send', anonymous =True)
-                    rate = rospy.Rate(10)
-                    pub.publish(str(center_point))
+                    if conf >0.9:
+                        pub = rospy. Publisher('qr',Point, queue_size=10)
+                        rospy.init_node('qr_send', anonymous =True)
+                        rate = rospy.Rate(10)
+                        msg=Point()
+                        msg.x=center_point[0]
+                        msg.y=center_point[1]
+                        pub.publish(msg)
+                        
+
+
 
                     if save_txt:  # Write to file
                         xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
@@ -185,10 +190,22 @@ def run(
 
                     if save_img or save_crop or view_img:  # Add bbox to image
                         c = int(cls)  # integer class
-                        label = None if hide_labels else (names[c] if hide_conf else f'{names[c]} {conf:.2f}')
+                        # label is (class name and number of accuracy)
+                        label = None if hide_labels else (names[c] if hide_conf else f'{names[c]} {conf:.2f}') 
                         annotator.box_label(xyxy, label, color=colors(c, True))
+                        # if int(label) >0.9:
+                        #     pub = rospy. Publisher('qr',Point, queue_size=10)
+                        #     rospy.init_node('qr_send', anonymous =True)
+                        #     rate = rospy.Rate(10)
+                        #     msg=Point()
+                        #     msg.x=center_point[0]
+                        #     msg.y=center_point[1]
+                        #     pub.publish(msg)
+                        #rospy.loginfo( "c: %.2f", conf)
                     if save_crop:
                         save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
+
+                    
 
             # Stream results
             im0 = annotator.result()
@@ -277,5 +294,8 @@ def main(opt):
 
 
 if __name__ == '__main__':
-    opt = parse_opt()
-    main(opt)
+    try:
+        opt = parse_opt()
+        main(opt)
+    except rospy.ROSInterruptException or KeyboardInterrupt:
+        exit()
