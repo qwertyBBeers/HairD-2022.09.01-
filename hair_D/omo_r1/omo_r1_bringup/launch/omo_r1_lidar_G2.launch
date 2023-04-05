@@ -2,7 +2,7 @@
   <arg name="set_port" default="/dev/ydlidar"/>
   <arg name="set_frame_id" default="base_scan"/>
 
-  <node pkg="ydlidar_ros" type="ydlidar_node" name="omo_r1_ydlidar" output="screen" respawn="false" >
+  <node pkg="ydlidar_ros_driver" type="ydlidar_ros_driver_node" name="omo_r1_ydlidar" output="screen" respawn="false" >
     <param name="port"         type="string" value="$(arg set_port)"/>  
     <param name="baudrate"     type="int"    value="230400"/>
     <param name="frame_id"     type="string" value="$(arg set_frame_id)"/>
