@@ -167,9 +167,13 @@ def run(
                 # Write results
                 for *xyxy, conf, cls in reversed(det):
                     center_point = round((int(xyxy[0])+int(xyxy[2]))/2),round((int(xyxy[1])+int(xyxy[3]))/2)
-                    cv2.circle(im0,center_point,5,(0,255,0),2)
+                    l_len=round(int(xyxy[0])),round((int(xyxy[2])-int(xyxy[0])))
+                    print(l_len)
                     cv2.putText(im0,str(center_point),center_point,cv2.FONT_HERSHEY_PLAIN,2,(0,225,0))
+                    cv2.line(im0,(int(xyxy[2]),int(xyxy[1]+14)),(int(xyxy[2]),int(xyxy[3]-10)),(0,0,225),thickness=2)
+                    cv2.putText(im0,str(l_len),l_len,cv2.FONT_HERSHEY_PLAIN,2,(0,0,225))
                     # send to receive.py for qr_center_point
+                    
                     if conf >0.9:
                         pub = rospy. Publisher('qr',Point, queue_size=10)
                         rospy.init_node('qr_send', anonymous =True)
@@ -179,6 +183,8 @@ def run(
                         msg.y=center_point[1]
                         pub.publish(msg)
                         
+                        
+
 
 
 
@@ -192,16 +198,8 @@ def run(
                         c = int(cls)  # integer class
                         # label is (class name and number of accuracy)
                         label = None if hide_labels else (names[c] if hide_conf else f'{names[c]} {conf:.2f}') 
-                        annotator.box_label(xyxy, label, color=colors(c, True))
-                        # if int(label) >0.9:
-                        #     pub = rospy. Publisher('qr',Point, queue_size=10)
-                        #     rospy.init_node('qr_send', anonymous =True)
-                        #     rate = rospy.Rate(10)
-                        #     msg=Point()
-                        #     msg.x=center_point[0]
-                        #     msg.y=center_point[1]
-                        #     pub.publish(msg)
-                        #rospy.loginfo( "c: %.2f", conf)
+                        # annotator.box_label(xyxy, label, color=colors(c, True)) # 라벨링 및 테두리 표시코드
+                        
                     if save_crop:
                         save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
 
@@ -252,8 +250,8 @@ def run(
 
 def parse_opt():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--weights', nargs='+', type=str, default=ROOT / 'yolov5s.pt', help='model path or triton URL')
-    parser.add_argument('--source', type=str, default=ROOT / 'data/images', help='file/dir/URL/glob/screen/0(webcam)')
+    parser.add_argument('--weights', nargs='+', type=str, default='/home/psi/catkin_ws/src/qr/src/yolov5/runs/train/qr_result6/weights/best.pt', help='model path or triton URL')
+    parser.add_argument('--source', type=str, default='2', help='file/dir/URL/glob/screen/0(webcam)')
     parser.add_argument('--data', type=str, default=ROOT / 'data/coco128.yaml', help='(optional) dataset.yaml path')
     parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[640], help='inference size h,w')
     parser.add_argument('--conf-thres', type=float, default=0.25, help='confidence threshold')
