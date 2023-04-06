@@ -9,22 +9,35 @@ bool yolo_srv(omo_r1_bringup::yolo_check::Request &req,
 {
   res.yolo_checkpub = "stop";
   req.yolo_checkpub = "start";
-
 }
 
-
-void callback(const std_msgs::String::ConstPtr& msg)
+void yolo_callback(const std_msgs::String::ConstPtr& msg)
 {
-  ROS_INFO("I heard: [%s]", msg->data.c_str());
+  yolo_topic = msg->data; //if yolo detect arco marker, give me that topic and name will be "start"
+}
+
+//if i want to publish bbangle topic to yolo, use that bbangle_topic
+void bbangle_topic(){
+  std_msgs::String msg;
+  msg.data = "stop";
+  pub_bbangle.publish(msg);
 }
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "my_subscriber");
+  ros::init(argc, argv, "haird_maincode");
   ros::NodeHandle nh;
 
-  ros::Subscriber sub = nh.subscribe("/my_topic", 10, callback);
-  ros::ServiceServer server = nh.advertiseService("yolo_check", yolo_srv);
-  ros::spin();
+  ros::Publisher pub_bbangle = nh.advertise<omo_r1_bringup::String>("/bbangle_stop")
+  
+  ros::Rate rate(10);
+  while (ros::ok())
+  {
+    ros::Subscriber sub = nh.subscribe("/yolo_start", 1, callback);
+    ros::ServiceServer server = nh.advertiseService("yolo_check", yolo_srv);
+    
+    rate.sleep();
+  }
+
   return 0;
 }
