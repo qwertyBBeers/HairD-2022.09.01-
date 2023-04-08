@@ -47,7 +47,7 @@ void yoloCallback(const std_msgs::String::ConstPtr& msg)
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "haird_maincode");
+  ros::init(argc, argv, "main_hair");
   ros::NodeHandle nh;
 
   ros::Publisher navStart_pub = nh.advertise<std_msgs::String>("nav_start", 1000);
@@ -73,6 +73,10 @@ int main(int argc, char** argv)
         std_msgs::String nav_msg;
         nav_msg.data = "stop";
         navStart_pub.publish(nav_msg); 
+
+        std_msgs::String bbangle_msg;
+        bbangle_msg.data = "stop";
+        bbangleStart_pub.publish(bbangle_msg);
       }
       if (con.nav_con == "done" && con.yolo_con == "yet"){            //Marker detection failure after cleaning -> rotation operation for marker detection
         std_msgs::String nav_msg;
@@ -92,6 +96,7 @@ int main(int argc, char** argv)
       }
     } 
     
+    ros::spinOnce();
     rate.sleep();
   }
 
