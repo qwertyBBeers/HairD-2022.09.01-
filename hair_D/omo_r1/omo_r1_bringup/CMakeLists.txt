@@ -25,6 +25,8 @@ find_package(catkin REQUIRED COMPONENTS
 add_service_files(
   FILES
   ResetOdom.srv
+  navigation_check.srv
+  yolo_check.srv
 )
 
 

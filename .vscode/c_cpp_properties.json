@@ -1,0 +1,53 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/kim/catkin_ws/devel/include/**",
+        "/home/kim/arena_ws/devel/include/**",
+        "/opt/ros/noetic/include/**",
+        "/home/kim/ws_yolov5/install/bboxes_ex_msgs/include/**",
+        "/home/kim/arena_ws/src/utils/flatland/arena_plugins/include/**",
+        "/home/kim/arena_ws/src/utils/3rd-party-robot-packages/cob4/cob_base_controller_utils/include/**",
+        "/home/kim/arena_ws/src/utils/3rd-party-robot-packages/cob4/cob_gazebo_ros_control/include/**",
+        "/home/kim/arena_ws/src/utils/3rd-party-robot-packages/cob4/cob_omni_drive_controller/include/**",
+        "/home/kim/arena_ws/src/utils/3rd-party-robot-packages/cob4/cob_scan_unifier/include/**",
+        "/home/kim/arena_ws/src/utils/3rd-party-robot-packages/cob4/cob_twist_controller/include/**",
+        "/home/kim/catkin_ws/src/flatland/flatland_plugins/include/**",
+        "/home/kim/catkin_ws/src/flatland/flatland_server/include/**",
+        "/home/kim/catkin_ws/src/flatland/flatland_viz/include/**",
+        "/home/kim/arena_ws/src/utils/navigation/msgs/ford/include/**",
+        "/home/kim/arena_ws/src/arena-rosnav/utils/intermediate_planner/include/**",
+        "/home/kim/catkin_ws/src/learning_tf2/include/**",
+        "/home/kim/arena_ws/src/arena-rosnav/utils/mapping/include/**",
+        "/home/kim/catkin_ws/src/md/include/**",
+        "/home/kim/catkin_ws/src/olaf_bot/motor_test/include/**",
+        "/home/kim/arena_ws/src/planners/mpc/mpc_local_planner/include/**",
+        "/home/kim/arena_ws/src/arena-rosnav/utils/path_search/include/**",
+        "/home/kim/arena_ws/src/utils/pedsim_ros/3rdparty/libpedsim/include/**",
+        "/home/kim/arena_ws/src/utils/pedsim_ros/pedsim_sensors/include/**",
+        "/home/kim/arena_ws/src/utils/pedsim_ros/pedsim_simulator/include/**",
+        "/home/kim/arena_ws/src/utils/pedsim_ros/pedsim_utils/include/**",
+        "/home/kim/arena_ws/src/utils/pedsim_ros/pedsim_visualizer/include/**",
+        "/home/kim/arena_ws/src/arena-rosnav/utils/plan_manager/include/**",
+        "/home/kim/arena_ws/src/arena-rosnav/utils/plan_visualization/include/**",
+        "/home/kim/arena_ws/src/utils/3rd-party-robot-packages/ridgeback/ridgeback_control/include/**",
+        "/home/kim/arena_ws/src/utils/3rd-party-robot-packages/ridgeback/ridgeback_gazebo_plugins/include/**",
+        "/home/kim/catkin_ws/src/olaf_bot/robot_localization/include/**",
+        "/home/kim/catkin_ws/src/robot_setup_tf/include/**",
+        "/home/kim/arena_ws/src/arena-rosnav/utils/spacial_horizon/include/**",
+        "/home/kim/arena_ws/src/arena-rosnav/utils/traj_planner/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}
