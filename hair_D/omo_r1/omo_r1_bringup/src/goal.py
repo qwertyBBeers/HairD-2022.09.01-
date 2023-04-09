@@ -11,7 +11,12 @@ import tf
 import numpy as np
 import time
 from std_msgs.msg import Float32MultiArray
-from std_msgs.msg import Int16
+from std_msgs.msg import Int32
+from std_msgs.msg import String
+
+class con:
+    def __init__(self):
+        self.flag = 0
 
 
 def callback(msg):
@@ -20,6 +25,18 @@ def callback(msg):
 
 def callbackRoom(data):
     stage = data
+
+    if(stage > 0 and stage < 5):
+        curr.flag = 1
+
+    if (curr.flag == 0):
+        if (stage == 0):
+            nav_info_msg = "before"
+            main_pub.publish(nav_info_msg)
+        elif (stage == 10):
+            nav_info_msg = "done"
+            main_pub.publish(nav_info_msg)
+
     #목적지 순서
     list_stage = []
 
@@ -70,7 +87,8 @@ def callbackRoom(data):
         
         list_stage.append(hh_stage.stage_goal)
     
-    goal_def(list_stage)
+    if(curr.flag == 1):
+        goal_def(list_stage)
 
 class hh_stage:
     stage_goal = []
@@ -132,16 +150,30 @@ def goal_def(list_stage):
     #         goal_test.y = -0.279016830127
     #         goal_test.z = 0.657537242689
     #         goal_test.w = 0.753422042733
+        nav_info_msg = "proceeding"
+        main_pub.publish(nav_info_msg)
+        
         move_to(stage_check)
 
         while((abs(current_pose.pose.pose.position.x - goal_test.x) > error) or (abs(current_pose.pose.pose.position.y - goal_test.y) > error)):
             pass
+    
+    nav_info_msg = "done"
+    main_pub.publish(nav_info_msg)
+    curr.flag = 0
+
+    
+    
 
 if __name__=='__main__':
     current_pose = PoseWithCovarianceStamped()
     rospy.init_node('map_navigation_lis', anonymous=True)
+
+    curr = con()
+    main_pub = rospy.Publisher('nav_info', String, queue_size=10)
+
     odom_sub = rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped, callback)
-    tu_sub = rospy.Subscriber('stage_info', Int16, callbackRoom)
+    tu_sub = rospy.Subscriber('nav_start', Int32, callbackRoom)
     ac = actionlib.SimpleActionClient("move_base", MoveBaseAction)
     ac.wait_for_server() # !!!!!!!!!!!!!!!!!!!!!!!!!!!
 

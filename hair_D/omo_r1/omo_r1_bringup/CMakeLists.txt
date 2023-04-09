@@ -27,6 +27,7 @@ add_service_files(
   ResetOdom.srv
   navigation_check.srv
   yolo_check.srv
+  qt_check.srv
 )
 
 
@@ -87,6 +88,8 @@ target_link_libraries(main_hair ${catkin_LIBRARIES})
 
 catkin_install_python(PROGRAMS
   nodes/omo_r1_motor_node.py
+  src/hair_goal.py
+  src/goal.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

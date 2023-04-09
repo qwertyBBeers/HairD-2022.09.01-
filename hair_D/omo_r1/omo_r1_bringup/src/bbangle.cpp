@@ -17,7 +17,8 @@ bbangle curr = bbangle();
 void mainCallback(const std_msgs::String::ConstPtr& msg)
 {
     curr.con = msg->data.c_str();
-    if(curr.con == "start"){
+    if(curr.con == "start")
+    {
         curr.flag = 1;
     }
 }
