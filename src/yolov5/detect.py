@@ -38,6 +38,7 @@ from pathlib import Path
 import torch
 import rospy
 from geometry_msgs.msg import Point
+from rospy_tutorials.srv import AddTwoInts
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # YOLOv5 root directory
@@ -168,26 +169,24 @@ def run(
                 for *xyxy, conf, cls in reversed(det):
                     center_point = round((int(xyxy[0])+int(xyxy[2]))/2),round((int(xyxy[1])+int(xyxy[3]))/2)
                     l_len=round(int(xyxy[0])),round((int(xyxy[2])-int(xyxy[0])))
-                    print(l_len)
                     cv2.putText(im0,str(center_point),center_point,cv2.FONT_HERSHEY_PLAIN,2,(0,225,0))
                     cv2.line(im0,(int(xyxy[2]),int(xyxy[1]+14)),(int(xyxy[2]),int(xyxy[3]-10)),(0,0,225),thickness=2)
                     cv2.putText(im0,str(l_len),l_len,cv2.FONT_HERSHEY_PLAIN,2,(0,0,225))
                     # send to receive.py for qr_center_point
                     
-                    if conf >0.9:
-                        pub = rospy. Publisher('qr',Point, queue_size=10)
-                        rospy.init_node('qr_send', anonymous =True)
-                        rate = rospy.Rate(10)
-                        msg=Point()
-                        msg.x=center_point[0]
-                        msg.y=center_point[1]
-                        pub.publish(msg)
+                    if conf >0.9 :
+                        
+                        if start == 1:      
+                            
+                            pub = rospy.Publisher('qr',Point, queue_size=10)
+                            rate = rospy.Rate(10)
+                            msg=Point()
+                            msg.x=center_point[0]
+                            msg.y=center_point[1]
+                            pub.publish(msg)
                         
                         
-
-
-
-
+                        
                     if save_txt:  # Write to file
                         xywh = (xyxy2xywh(torch.tensor(xyxy).view(1, 4)) / gn).view(-1).tolist()  # normalized xywh
                         line = (cls, *xywh, conf) if save_conf else (cls, *xywh)  # label format
@@ -235,11 +234,11 @@ def run(
                     vid_writer[i].write(im0)
 
         # Print time (inference-only)
-        LOGGER.info(f"{s}{'' if len(det) else '(no detections), '}{dt[1].dt * 1E3:.1f}ms")
+        # LOGGER.info(f"{s}{'' if len(det) else '(no detections), '}{dt[1].dt * 1E3:.1f}ms")
 
     # Print results
     t = tuple(x.t / seen * 1E3 for x in dt)  # speeds per image
-    LOGGER.info(f'Speed: %.1fms pre-process, %.1fms inference, %.1fms NMS per image at shape {(1, 3, *imgsz)}' % t)
+    # LOGGER.info(f'Speed: %.1fms pre-process, %.1fms inference, %.1fms NMS per image at shape {(1, 3, *imgsz)}' % t)
     if save_txt or save_img:
         s = f"\n{len(list(save_dir.glob('labels/*.txt')))} labels saved to {save_dir / 'labels'}" if save_txt else ''
         LOGGER.info(f"Results saved to {colorstr('bold', save_dir)}{s}")
@@ -247,6 +246,30 @@ def run(
         strip_optimizer(weights[0])  # update model (to fix SourceChangeWarning)
 
 
+def handle(req):
+    print(req)
+
+    if req.a == 1:
+        global start
+        start = 1
+        print(start)
+        opt = parse_opt()
+        main(opt)
+    else:
+        print("not start")
+
+    
+    return start
+
+
+
+def Start():
+        
+        rospy.init_node('yolostart_server')
+        s = rospy.Service('yolostart',AddTwoInts,handle)
+        print(" ready ")
+        
+        rospy.spin()
 
 def parse_opt():
     parser = argparse.ArgumentParser()
@@ -289,11 +312,13 @@ def parse_opt():
 def main(opt):
     check_requirements(exclude=('tensorboard', 'thop'))
     run(**vars(opt))
+    
 
 
 if __name__ == '__main__':
     try:
-        opt = parse_opt()
-        main(opt)
+        # opt = parse_opt()
+        Start()
+        # main(opt)
     except rospy.ROSInterruptException or KeyboardInterrupt:
         exit()

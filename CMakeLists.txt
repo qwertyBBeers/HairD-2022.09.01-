@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   geometry_msgs
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -54,11 +55,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+ add_service_files(
+   FILES
+   yolostart.srv
+ )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -162,6 +162,7 @@ include_directories(
  catkin_install_python(PROGRAMS
    src/yolov5/detect.py 
    src/test/receive.py
+   src/test/yolostart.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 
