@@ -15,6 +15,7 @@ class robot_con
     std::string nav_con = "before";          //before, proceeding, done
     std::string bbangle_con = "before";      //before, proceeding, done
     std::string yolo_con = "before";         //yet, detected, done
+    std::string yolo_check = "stop";         //stop, start
     int flag = 0;                            //0, 1
 };
 
@@ -48,6 +49,7 @@ bool qtServiceHandler(omo_r1_bringup::qt_check::Request& req, omo_r1_bringup::qt
 void navCallback(const std_msgs::String::ConstPtr& msg)
 {
   con.nav_con = msg->data.c_str();
+  ROS_INFO("%s\n", msg->data.c_str());
 }
 
 void bbangleCallback(const std_msgs::String::ConstPtr& msg)
@@ -71,6 +73,7 @@ int main(int argc, char** argv)
 
   ros::Publisher navStart_pub = nh.advertise<std_msgs::Int32>("nav_start", 1000);
   ros::Publisher bbangleStart_pub = nh.advertise<std_msgs::String>("bbangle_start", 1000);
+  ros::Publisher yoloStart_pub = nh.advertise<std_msgs::String>("yolo_start", 1000);
 
 
   //ros::Subscriber qt_sub = nh.subscribe("qt_info", 1000, qtCallback);
@@ -83,7 +86,7 @@ int main(int argc, char** argv)
   {
     
     if (con.flag == 1){
-      if (con.nav_con == "before"){                                   //before cleaning
+      if (con.nav_con == "before"){                                                           //before cleaning
         std_msgs::Int32 nav_msg;
         nav_msg.data = con.qt_con;
         navStart_pub.publish(nav_msg); 
@@ -92,7 +95,7 @@ int main(int argc, char** argv)
         bbangle_msg.data = "stop";
         bbangleStart_pub.publish(bbangle_msg);
       }
-      if (con.nav_con == "done" && con.yolo_con == "detected"){       //Confirm marker detection after cleaning -> return to tray process
+      if (con.nav_con == "done" && con.yolo_con == "detected"){                               //Confirm marker detection after cleaning -> return to tray process
         std_msgs::Int32 nav_msg;
         nav_msg.data = 10;
         navStart_pub.publish(nav_msg); 
@@ -100,8 +103,12 @@ int main(int argc, char** argv)
         std_msgs::String bbangle_msg;
         bbangle_msg.data = "stop";
         bbangleStart_pub.publish(bbangle_msg);
+
+        std_msgs::String yolo_msg;
+        yolo_msg.data = "start";
+        yoloStart_pub.publish(yolo_msg);
       }
-      if (con.nav_con == "done" && con.yolo_con == "yet"){            //Marker detection failure after cleaning -> rotation operation for marker detection
+      if (con.nav_con == "done" && con.yolo_con == "yet" && con.yolo_check == "start"){       //Marker detection failure -> rotation operation for marker detection
         std_msgs::Int32 nav_msg;
         nav_msg.data = 10;
         navStart_pub.publish(nav_msg); 
@@ -109,11 +116,30 @@ int main(int argc, char** argv)
         std_msgs::String bbangle_msg;
         bbangle_msg.data = "start";
         bbangleStart_pub.publish(bbangle_msg);
+
+        std_msgs::String yolo_msg;
+        yolo_msg.data = "start";
+        yoloStart_pub.publish(yolo_msg);
       }
-      if (con.nav_con == "done" && con.yolo_con == "done"){           //return to tray complete
+      if (con.nav_con == "done" && con.yolo_con == "yet" && con.yolo_check == "stop"){        //after cleanong -> start yolo process
+        std_msgs::Int32 nav_msg;
+        nav_msg.data = 10;
+        navStart_pub.publish(nav_msg); 
+        
+        std_msgs::String yolo_msg;
+        yolo_msg.data = "start";
+        yoloStart_pub.publish(yolo_msg);
+        con.yolo_check == "start";
+      }
+      if (con.nav_con == "done" && con.yolo_con == "done"){                                   //return to tray complete
         std_msgs::String bbangle_msg;
         bbangle_msg.data = "stop";
         bbangleStart_pub.publish(bbangle_msg);
+
+        std_msgs::String yolo_msg;
+        yolo_msg.data = "stop";
+        yoloStart_pub.publish(yolo_msg);
+        con.yolo_check == "stop";
 
         std_msgs::Int32 nav_msg;
         nav_msg.data = 0;
