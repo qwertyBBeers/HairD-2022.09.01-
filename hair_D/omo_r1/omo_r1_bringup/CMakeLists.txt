@@ -20,6 +20,7 @@ find_package(catkin REQUIRED COMPONENTS
   #usb_cam
   omo_r1_description
   message_generation
+  std_msgs
 )
 
 add_service_files(
@@ -53,7 +54,7 @@ generate_messages(
 )
 
 catkin_package(
-  CATKIN_DEPENDS rospy roscpp sensor_msgs nav_msgs std_msgs geometry_msgs tf usb_cam omo_r1_description
+  CATKIN_DEPENDS rospy roscpp sensor_msgs nav_msgs std_msgs geometry_msgs tf usb_cam omo_r1_description message_runtime
 )
 
 

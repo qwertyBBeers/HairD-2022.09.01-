@@ -11,12 +11,12 @@
 class robot_con
 {
   public:
-    int qt_con= 0;                           //1, 2, 3
+    int qt_con= 1;                           //1, 2, 3
     std::string nav_con = "before";          //before, proceeding, done
     std::string bbangle_con = "before";      //before, proceeding, done
     std::string yolo_con = "before";         //yet, detected, done
     std::string yolo_check = "stop";         //stop, start
-    int flag = 0;                            //0, 1
+    int flag = 1;                            //0, 1
 };
 
 robot_con con = robot_con();
@@ -48,18 +48,19 @@ bool qtServiceHandler(omo_r1_bringup::qt_check::Request& req, omo_r1_bringup::qt
 
 void navCallback(const std_msgs::String::ConstPtr& msg)
 {
-  con.nav_con = msg->data.c_str();
-  ROS_INFO("%s\n", msg->data.c_str());
+  con.nav_con = msg->data;
+  std::cout<<con.nav_con<<std::endl;
 }
 
 void bbangleCallback(const std_msgs::String::ConstPtr& msg)
 {
-  con.bbangle_con = msg->data.c_str();
+  con.bbangle_con = msg->data;
 }
 
 void yoloCallback(const std_msgs::String::ConstPtr& msg)
 {
-  con.bbangle_con = msg->data.c_str();
+  con.yolo_con = msg->data;
+  std::cout<<con.yolo_con<<std::endl;
 }
 
 
