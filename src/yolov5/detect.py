@@ -38,7 +38,7 @@ from pathlib import Path
 import torch
 import rospy
 from geometry_msgs.msg import Point
-from rospy_tutorials.srv import AddTwoInts
+from std_msgs.msg import String
 
 FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]  # YOLOv5 root directory
@@ -53,9 +53,8 @@ from utils.general import (LOGGER, Profile, check_file, check_img_size, check_im
 from utils.plots import Annotator, colors, save_one_box
 from utils.torch_utils import select_device, smart_inference_mode
 
-
-
-
+start =0
+info ="yet"
 @smart_inference_mode()
 def run(
         weights=ROOT / 'yolov5s.pt',  # model path or triton URL
@@ -173,18 +172,27 @@ def run(
                     cv2.line(im0,(int(xyxy[2]),int(xyxy[1]+14)),(int(xyxy[2]),int(xyxy[3]-10)),(0,0,225),thickness=2)
                     cv2.putText(im0,str(l_len),l_len,cv2.FONT_HERSHEY_PLAIN,2,(0,0,225))
                     # send to receive.py for qr_center_point
-                    
-                    if conf >0.9 :
+
+                    qr_pub = rospy.Publisher('qr',Point, queue_size=10)
+                    yolo_pub = rospy.Publisher('yolo_info',String,queue_size=10)
+                    rate = rospy.Rate(10)
+
+                    global info
+                    yolo_pub.publish(info)
+
+                    if start ==1 :
                         
-                        if start == 1:      
-                            
-                            pub = rospy.Publisher('qr',Point, queue_size=10)
-                            rate = rospy.Rate(10)
+                        if conf >0.9:
+
                             msg=Point()
                             msg.x=center_point[0]
                             msg.y=center_point[1]
-                            pub.publish(msg)
-                        
+                            qr_pub.publish(msg)
+                            info="detected"   
+                        else:
+                            info="yet"
+                    else:
+                        info ="yet"                
                         
                         
                     if save_txt:  # Write to file
@@ -246,35 +254,29 @@ def run(
         strip_optimizer(weights[0])  # update model (to fix SourceChangeWarning)
 
 
-def handle(req):
-    print(req)
-
-    if req.a == 1:
-        global start
+def handle(data):
+    global start 
+    if data.data == "start":
         start = 1
-        print(start)
-        opt = parse_opt()
-        main(opt)
-    else:
-        print("not start")
-
+        
+    elif data.data == "stop":
+        start = 0
     
     return start
 
-
-
-def Start():
+def Start(): 
         
-        rospy.init_node('yolostart_server')
-        s = rospy.Service('yolostart',AddTwoInts,handle)
-        print(" ready ")
-        
+        rospy.init_node('yolo')
+        yolo_sub = rospy.Subscriber('yolo_start',String,handle)
+        print("ready ")
+        opt = parse_opt()
+        main(opt)
         rospy.spin()
 
 def parse_opt():
     parser = argparse.ArgumentParser()
     parser.add_argument('--weights', nargs='+', type=str, default='/home/psi/catkin_ws/src/qr/src/yolov5/runs/train/qr_result6/weights/best.pt', help='model path or triton URL')
-    parser.add_argument('--source', type=str, default='2', help='file/dir/URL/glob/screen/0(webcam)')
+    parser.add_argument('--source', type=str, default='0', help='file/dir/URL/glob/screen/0(webcam)')
     parser.add_argument('--data', type=str, default=ROOT / 'data/coco128.yaml', help='(optional) dataset.yaml path')
     parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[640], help='inference size h,w')
     parser.add_argument('--conf-thres', type=float, default=0.25, help='confidence threshold')

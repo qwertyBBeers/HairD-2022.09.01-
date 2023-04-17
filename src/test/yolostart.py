@@ -1,19 +1,24 @@
 import rospy
-from rospy_tutorials.srv import AddTwoInts
+from std_msgs.msg import String
 
+def yoloCallback(data):
+    print(data.data)
 
-def client(st):
-    rospy.wait_for_service('yolostart')
-    try:
-
-        yolostart = rospy.ServiceProxy('yolostart',AddTwoInts)
-        resp = yolostart(st,0)
-        return resp.sum
+def talker():
+    pub = rospy.Publisher('yolo_start', String, queue_size=10)
+    rospy.Subscriber("yolo_info",String,yoloCallback)
+    rospy.init_node('main',anonymous=True)
+    rate = rospy.Rate(10)
+    while not rospy.is_shutdown():
+        pub.publish("start")
+        rate.sleep()
         
-    except rospy.ROSInterruptException or KeyboardInterrupt or rospy.ServiceException as e:
-        exit()  
+
+
 if __name__ == '__main__':
-    x=1
-    print(client(x))
+    try:
+        talker()
+    except rospy.ROSInterruptException:
+        pass
     
     
