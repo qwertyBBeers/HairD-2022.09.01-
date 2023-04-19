@@ -17,6 +17,10 @@ from std_msgs.msg import String
 class con:
     def __init__(self):
         self.flag = 0
+        self.a = 0
+        self.list_stage = []
+        self.listFlag = 0
+        self.count = 0
 
 
 def callback(msg):
@@ -24,71 +28,95 @@ def callback(msg):
     current_pose = msg
 
 def callbackRoom(data):
-    stage = data
+    stage = data.data
+    print("stage: {} ", stage)
 
-    if(stage > 0 and stage < 5):
+    # if(stage > 0 and stage < 5):
+    #     curr.flag = 1
+
+    # if (curr.flag == 0):
+    #     if (stage == 0):
+    #         nav_info_msg = "before"
+    #         main_pub.publish(nav_info_msg)
+    #     elif (stage == 10):
+    #         nav_info_msg = "done"
+    #         main_pub.publish(nav_info_msg)
+    print("flag: ",curr.flag)
+    if(curr.flag == 0 and stage < 5 and stage > 0):
+        #목적지 순서
+        curr.list_stage = []
+
+        if stage == 1:
+            c_x = -10
+            c_y = -1
+        elif stage == 2:
+            c_x = 1
+            c_y = 1
+        elif stage == 3:
+            c_x = 1
+            c_y = 1
+
+        for i in range(1,9):
+        #목적지 순서당 가지는 Goal 값
+            if i == 1:
+                c_x = -6.9919998385300905
+                c_y = -1.7626041636716419
+                hh_stage.stage_goal = [c_x, c_y, 0.0006212069903111241, 0.999999807050919]
+            elif i == 2:
+                c_x = -6.9919998385300905
+                c_y = -1.7626041636716419
+                hh_stage.stage_goal = [c_x, c_y, 0.0006212069903111241, 0.999999807050919]
+            elif i == 3:
+                c_x = -6.9919998385300905
+                c_y = -1.7626041636716419
+                hh_stage.stage_goal = [c_x, c_y, 0.0006212069903111241, 0.999999807050919]
+            elif i == 4:
+                c_x = -6.9919998385300905
+                c_y = -1.7626041636716419
+                hh_stage.stage_goal = [c_x, c_y, 0.0006212069903111241, 0.999999807050919]
+            elif i == 5:
+                c_x = -6.9919998385300905
+                c_y = -1.7626041636716419
+                hh_stage.stage_goal = [c_x, c_y, 0.0006212069903111241, 0.999999807050919]
+            elif i == 6:
+                c_x = -6.9919998385300905
+                c_y = -1.7626041636716419
+                hh_stage.stage_goal = [c_x, c_y, 0.0006212069903111241, 0.999999807050919]
+            elif i == 7:
+                c_x = -6.9919998385300905
+                c_y = -1.7626041636716419
+                hh_stage.stage_goal = [c_x, c_y, 0.0006212069903111241, 0.999999807050919]
+            elif i == 8:
+                c_x = -4.169199173404851
+                c_y = -1.8642117864571868
+                hh_stage.stage_goal = [c_x, c_y, -0.9993476118604158, 0.036115795282450666]
+
+            curr.list_stage.append(hh_stage.stage_goal)
+        if(len(curr.list_stage) == 8):
+            curr.listFlag = 1
+    
+
+    if(stage > 0 and stage < 5 and curr.listFlag == 1):
         curr.flag = 1
+    
+    if(stage > 5):
+        curr.flag = 0
 
     if (curr.flag == 0):
         if (stage == 0):
             nav_info_msg = "before"
             main_pub.publish(nav_info_msg)
+            print("pub before")
+            curr.count = 0
         elif (stage == 10):
             nav_info_msg = "done"
             main_pub.publish(nav_info_msg)
+            curr.count = 0
 
-    #목적지 순서
-    list_stage = []
 
-    if stage == 1:
-        c_x = 1
-        c_y = 1
-    elif stage == 2:
-        c_x = 1
-        c_y = 1
-    elif stage == 3:
-        c_x = 1
-        c_y = 1
-    
-    for i in 8:
-        #목적지 순서당 가지는 Goal 값
-        if i == 1:
-            c_x = c_x - 3
-            c_y = c_y + 3
-            hh_stage.stage_goal = [c_x, c_y, 3, 4]
-        elif i == 2:
-            c_x = c_x - 3
-            c_y = c_y + 3
-            hh_stage.stage_goal = [c_x, c_y, 3, 4]
-        elif i == 3:
-            c_x = c_x - 3
-            c_y = c_y + 3
-            hh_stage.stage_goal = [c_x, c_y, 3, 4]
-        elif i == 4:
-            c_x = c_x - 3
-            c_y = c_y + 3
-            hh_stage.stage_goal = [c_x, c_y, 3, 4]
-        elif i == 5:
-            c_x = c_x - 3
-            c_y = c_y + 3
-            hh_stage.stage_goal = [c_x, c_y, 3, 4]
-        elif i == 6:
-            c_x = c_x - 3
-            c_y = c_y + 3
-            hh_stage.stage_goal = [c_x, c_y, 3, 4]
-        elif i == 7:
-            c_x = c_x - 3
-            c_y = c_y + 3
-            hh_stage.stage_goal = [c_x, c_y, 3, 4]
-        elif i == 8:
-            c_x = c_x - 3
-            c_y = c_y + 3
-            hh_stage.stage_goal = [c_x, c_y, 3, 4]
-        
-        list_stage.append(hh_stage.stage_goal)
-    
-    if(curr.flag == 1):
-        goal_def(list_stage)
+    if(curr.flag == 1 and stage < 5 and curr.count == 0):
+        print(curr.list_stage)
+        goal_def(curr.list_stage)
 
 class hh_stage:
     stage_goal = []
@@ -101,28 +129,32 @@ class GoalPose:
     z = 0.
     w = 0.
 
-def move_to(stage_check):
+def move_to(goal_point):
     goal = MoveBaseGoal()
     goal.target_pose.header.frame_id = "map"
     goal.target_pose.header.stamp = rospy.Time.now()
 
+    print(curr.a)
+    #print(len(stage_check))
+    curr.a += 1 
+
     goal.target_pose.pose.orientation.x = 0
     goal.target_pose.pose.orientation.y = 0
-    goal.target_pose.pose.orientation.z = stage_check[0]
-    goal.target_pose.pose.orientation.w = stage_check[1]
+    goal.target_pose.pose.orientation.z = goal_point.z
+    goal.target_pose.pose.orientation.w = goal_point.w
 
-    goal.target_pose.pose.position.x = stage_check[2]
-    goal.target_pose.pose.position.y = stage_check[3]
+    goal.target_pose.pose.position.x = goal_point.x
+    goal.target_pose.pose.position.y = goal_point.y
     goal.target_pose.pose.position.z = 0
 
-    # print(goal)
+    print(goal)
     ac.send_goal(goal)
 
 def goal_def(list_stage):
     goal_test = GoalPose()
-    error = 0.1
+    error = 0.5
 
-    for i in 8:
+    for i in range(8):
         stage_check = list_stage[i]
 
     # for room in stage:
@@ -150,17 +182,25 @@ def goal_def(list_stage):
     #         goal_test.y = -0.279016830127
     #         goal_test.z = 0.657537242689
     #         goal_test.w = 0.753422042733
+        goal_test.x = stage_check[0]
+        goal_test.y = stage_check[1]
+        goal_test.z = stage_check[2]
+        goal_test.w = stage_check[3]
         nav_info_msg = "proceeding"
         main_pub.publish(nav_info_msg)
         
-        move_to(stage_check)
+        move_to(goal_test)
 
         while((abs(current_pose.pose.pose.position.x - goal_test.x) > error) or (abs(current_pose.pose.pose.position.y - goal_test.y) > error)):
             pass
+        print("b")
     
+    print("c")
     nav_info_msg = "done"
     main_pub.publish(nav_info_msg)
     curr.flag = 0
+    curr.listFlag = 0
+    curr.count += 1
 
     
     
