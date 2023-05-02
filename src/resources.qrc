@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>images/calendar.png</file>
+        <file>images/chair_icon.png</file>
+    </qresource>
+</RCC>
