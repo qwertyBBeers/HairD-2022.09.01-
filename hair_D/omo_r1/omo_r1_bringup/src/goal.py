@@ -95,11 +95,67 @@ def callbackRoom(data):
         if(len(curr.list_stage) == 8):
             curr.listFlag = 1
     
+    if(stage > 10 and curr.flag == 0 ):
+        #목적지 순서
+        curr.list_stage = []
+
+        if stage == 11:
+            c_x = -10
+            c_y = -1
+        elif stage == 22:
+            c_x = 1
+            c_y = 1
+        elif stage == 33:
+            c_x = 1
+            c_y = 1
+
+        for i in range(1,9):
+        #목적지 순서당 가지는 Goal 값
+            if i == 1:
+                c_x = -6.9919998385300905
+                c_y = -1.7626041636716419
+                hh_stage.stage_goal = [c_x, c_y, 0.0006212069903111241, 0.999999807050919]
+            elif i == 2:
+                c_x = -6.9919998385300905
+                c_y = -1.7626041636716419
+                hh_stage.stage_goal = [c_x, c_y, 0.0006212069903111241, 0.999999807050919]
+            elif i == 3:
+                c_x = -6.9919998385300905
+                c_y = -1.7626041636716419
+                hh_stage.stage_goal = [c_x, c_y, 0.0006212069903111241, 0.999999807050919]
+            elif i == 4:
+                c_x = -6.9919998385300905
+                c_y = -1.7626041636716419
+                hh_stage.stage_goal = [c_x, c_y, 0.0006212069903111241, 0.999999807050919]
+            elif i == 5:
+                c_x = -6.9919998385300905
+                c_y = -1.7626041636716419
+                hh_stage.stage_goal = [c_x, c_y, 0.0006212069903111241, 0.999999807050919]
+            elif i == 6:
+                c_x = -6.9919998385300905
+                c_y = -1.7626041636716419
+                hh_stage.stage_goal = [c_x, c_y, 0.0006212069903111241, 0.999999807050919]
+            elif i == 7:
+                c_x = -6.9919998385300905
+                c_y = -1.7626041636716419
+                hh_stage.stage_goal = [c_x, c_y, 0.0006212069903111241, 0.999999807050919]
+            elif i == 8:
+                c_x = -4.169199173404851
+                c_y = -1.8642117864571868
+                hh_stage.stage_goal = [c_x, c_y, -0.9993476118604158, 0.036115795282450666]
+
+            curr.list_stage.append(hh_stage.stage_goal)
+        if(len(curr.list_stage) == 8):
+            curr.listFlag = 1
+
+
+
 
     if(stage > 0 and stage < 5 and curr.listFlag == 1):
         curr.flag = 1
-    
-    if(stage > 5):
+    if(stage > 10 and curr.listFlag == 1):
+        curr.flag = 1
+    if(stage > 5 and stage < 11):
         curr.flag = 0
 
     if (curr.flag == 0):
@@ -115,6 +171,10 @@ def callbackRoom(data):
 
 
     if(curr.flag == 1 and stage < 5 and curr.count == 0):
+        print(curr.list_stage)
+        goal_def(curr.list_stage)
+
+    if(curr.flag == 1 and stage > 10 and curr.count == 0):
         print(curr.list_stage)
         goal_def(curr.list_stage)
 

@@ -33,7 +33,12 @@ bool qtServiceHandler(omo_r1_bringup::qt_check::Request& req, omo_r1_bringup::qt
       std::cout<<"service in"<<std::endl;
       con.qt_con_str = req.qt_req;
       con.qt_con = std::stoi(req.qt_req);
-      con.flag = 1;
+      if(con.qt_con > 0 and con.qt_con < 5){
+        con.flag = 1;
+      }
+      if(con.qt_con > 10){
+        con.flag == 2;
+      }
     }
 
     return true; // 서비스 요청 처리 성공
@@ -159,6 +164,23 @@ int main(int argc, char** argv)
       }
       std::cout<<"con_yolo: "<<con.yolo_con<<std::endl;
       std::cout<<"con_nav: "<<con.nav_con<<std::endl;
+    }
+    if(con.flag == 2){
+      if(con.nav_con == "before"){
+        std_msgs::Int32 nav_msg;
+        nav_msg.data = con.qt_con;
+        navStart_pub.publish(nav_msg);
+      }
+      if(con.nav_con == "done"){
+        std_msgs::Int32 nav_msg;
+        nav_msg.data = 0;
+        con.qt_con = 0;
+        navStart_pub.publish(nav_msg);
+        
+        con.flag = 0; 
+        con.nav_flag = 0; 
+      }
+
     } 
 
     ros::spinOnce();
