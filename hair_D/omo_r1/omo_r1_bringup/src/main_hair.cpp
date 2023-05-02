@@ -37,7 +37,7 @@ bool qtServiceHandler(omo_r1_bringup::qt_check::Request& req, omo_r1_bringup::qt
         con.flag = 1;
       }
       if(con.qt_con > 10){
-        con.flag == 2;
+        con.flag = 2;
       }
     }
 
@@ -97,7 +97,7 @@ int main(int argc, char** argv)
   ros::Rate loop_rate(10);
   while (ros::ok())
   {
-    
+    std::cout<<"con_flag: "<<con.flag<<std::endl;
     if (con.flag == 1){
       if (con.nav_con == "before" && con.nav_flag == 0){                                                           //before cleaning
         std_msgs::Int32 nav_msg;
@@ -180,7 +180,7 @@ int main(int argc, char** argv)
         con.flag = 0; 
         con.nav_flag = 0; 
       }
-
+      std::cout<<"con_nav move: "<<con.nav_con<<std::endl;
     } 
 
     ros::spinOnce();

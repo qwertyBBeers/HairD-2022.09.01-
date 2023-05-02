@@ -95,7 +95,7 @@ def callbackRoom(data):
         if(len(curr.list_stage) == 8):
             curr.listFlag = 1
     
-    if(stage > 10 and curr.flag == 0 ):
+    if(stage > 10 and curr.flag == 0 and curr.count == 0):
         #목적지 순서
         curr.list_stage = []
 
