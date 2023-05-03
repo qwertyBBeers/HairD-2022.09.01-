@@ -35,14 +35,14 @@
     </inertial>
   </link>
 
-  <joint name="wheel_left_joint" type="continuous">
+  <!-- <joint name="wheel_left_joint" type="continuous">
     <parent link="base_link"/>
     <child link="wheel_left_link"/>
     <origin xyz="0.0 0.275 0.037" rpy="0.0 0.0 0"/>
     <axis xyz="0 1 0"/>
-  </joint>
+  </joint> -->
 
-  <link name="wheel_left_link">
+  <!-- <link name="wheel_left_link">
     <visual>
       <origin xyz="-0.1105 -0.06 0.1104" rpy="-1.57 0 0"/>
       <geometry>
@@ -65,9 +65,9 @@
                iyy="1.1192413e-03" iyz="-1.4400107e-08"
                izz="2.0712558e-03" />
       </inertial>
-  </link>
+  </link> -->
 
-  <joint name="wheel_right_joint" type="continuous">
+  <!-- <joint name="wheel_right_joint" type="continuous">
     <parent link="base_link"/>
     <child link="wheel_right_link"/>
     <origin xyz="0.0 -0.275 0.037" rpy="0.0 0 0"/>
@@ -97,9 +97,9 @@
                iyy="1.1192413e-03" iyz="-1.4400107e-08"
                izz="2.0712558e-03" />
       </inertial>
-  </link>
+  </link> -->
 
-  <joint name="caster_back_right_joint" type="fixed">
+  <!-- <joint name="caster_back_right_joint" type="fixed">
     <parent link="base_link"/>
     <child link="caster_back_right_link"/>
     <origin xyz="-0.33 -0.148 0.06" rpy="0 0 0"/>
@@ -143,15 +143,15 @@
                iyy="0.000001" iyz="0.0"
                izz="0.000001" />
     </inertial>
-  </link>
+  </link> -->
 
-  <joint name="imu_joint" type="fixed">
+  <!-- <joint name="imu_joint" type="fixed">
     <parent link="base_link"/>
     <child link="imu_link"/>
     <origin xyz="0.0 0 0.190" rpy="0 0 1.5758"/>
   </joint>
 
-  <link name="imu_link"/>
+  <link name="imu_link"/> -->
 
   <joint name="scan_joint" type="fixed">
     <parent link="base_link"/>
@@ -184,7 +184,7 @@
     </inertial>
   </link>
 
-  <joint name="camera_joint" type="fixed">
+  <!-- <joint name="camera_joint" type="fixed">
     <origin xyz="0.07 0.0 0.63" rpy="0 0.7 0"/>
     <parent link="base_link"/>
     <child link="camera_link"/>
@@ -219,5 +219,5 @@
     <parent link="camera_rgb_frame"/>
     <child link="camera_rgb_optical_frame"/>
   </joint>
-  <link name="camera_rgb_optical_frame"/>
+  <link name="camera_rgb_optical_frame"/> -->
 </robot>

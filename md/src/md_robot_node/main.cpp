@@ -445,7 +445,7 @@ int main(int argc, char** argv)
         ROS_INFO("Not using MDUI");
     }
 
-    robotParamData.nBaudrate = 57600;               // fixed
+    robotParamData.nBaudrate = 19200;               // fixed
 
     ROS_INFO("PC ID          : %d", robotParamData.nIDPC);
     ROS_INFO("MDUI ID        : %d", robotParamData.nIDMDUI);
