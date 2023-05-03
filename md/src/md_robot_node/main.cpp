@@ -372,8 +372,8 @@ void cmdVelCallBack(const geometry_msgs::Twist& keyVel)   //from turtlebot3_tele
     if(fgInitsetting == INIT_SETTING_STATE_OK) {
         velCmdUpdateCount++;
 
-        goal_cmd_speed = keyVel.linear.x;
-        goal_cmd_ang_speed = keyVel.angular.z;
+        goal_cmd_speed = keyVel.linear.x / 100;
+        goal_cmd_ang_speed = keyVel.angular.z / 100;
 
 #if 0
         ROS_INFO("Goal cmd_vel(m/sec): lin: %f, ang: %f", keyVel.linear.x, keyVel.angular.z);

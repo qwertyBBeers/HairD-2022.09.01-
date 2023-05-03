@@ -6,7 +6,7 @@
         <param name = "motor_pole"                  value = "20"/> 
         <param name = "reduction"                   value = "30"/> 
         <param name = "reverse_direction"           value = "0"/>       <!-- 0: forward, 1: reverse -->
-        <param name = "maxrpm"                      value = "10"/>    <!-- unit: RPM -->
+        <param name = "maxrpm"                      value = "200"/>    <!-- unit: RPM -->
         <param name = "motor_posi"                  value = "0"/>       <!-- motor pisition 0: hall sensor, 1: encoder -->
         <param name = "encoder_PPR"                 value = "1024"/>   <!-- if use encoder position, encoder PPR -->
         <param name = "position_proportion_gain"    value = "20"/>      <!-- reference PID 203(PID_GAIN) -->
