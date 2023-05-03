@@ -92,6 +92,11 @@ add_executable(main_hair src/main_hair.cpp)
 add_dependencies(main_hair ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(main_hair ${catkin_LIBRARIES})
 
+
+add_executable(odom src/odom.cpp)
+add_dependencies(odom ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(odom ${catkin_LIBRARIES})
+
 catkin_install_python(PROGRAMS
   nodes/omo_r1_motor_node.py
   src/hair_goal.py
