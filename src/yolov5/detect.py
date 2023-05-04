@@ -168,9 +168,13 @@ def run(
                 for *xyxy, conf, cls in reversed(det):
                     center_point = round((int(xyxy[0])+int(xyxy[2]))/2),round((int(xyxy[1])+int(xyxy[3]))/2)
                     l_len=round(int(xyxy[0])),round((int(xyxy[2])-int(xyxy[0])))
-                    cv2.putText(im0,str(center_point),center_point,cv2.FONT_HERSHEY_PLAIN,2,(0,225,0))
-                    cv2.line(im0,(int(xyxy[2]),int(xyxy[1]+14)),(int(xyxy[2]),int(xyxy[3]-10)),(0,0,225),thickness=2)
-                    cv2.putText(im0,str(l_len),l_len,cv2.FONT_HERSHEY_PLAIN,2,(0,0,225))
+                    cv2.putText(im0,str(center_point),center_point,cv2.FONT_HERSHEY_PLAIN,2,(225,0,0),4)
+                    cv2.circle(im0,center_point,0,(0,225,0),5)
+                    #cv2.line(im0,(int(xyxy[2]),int(xyxy[1]+14)),(int(xyxy[2]),int(xyxy[3]-10)),(0,0,225),thickness=2)
+                    cv2.arrowedLine(im0,(round((int(xyxy[0])+int(xyxy[2]))/2),round((int(xyxy[1])+int(xyxy[3]))/2)),(int(xyxy[2]),round((int(xyxy[1])+int(xyxy[3]))/2)),(0,0,225),thickness=2)
+                    cv2.arrowedLine(im0,(round((int(xyxy[0])+int(xyxy[2]))/2),round((int(xyxy[1])+int(xyxy[3]))/2)),(round((int(xyxy[0])+int(xyxy[2]))/2),int(xyxy[1])),(0,225,0),thickness=2)
+                    
+                    #cv2.putText(im0,str(l_len),l_len,cv2.FONT_HERSHEY_PLAIN,2,(0,0,225))
                     # send to receive.py for qr_center_point
 
                     qr_pub = rospy.Publisher('qr',Point, queue_size=10)
@@ -276,7 +280,7 @@ def Start():
 def parse_opt():
     parser = argparse.ArgumentParser()
     parser.add_argument('--weights', nargs='+', type=str, default='/home/psi/catkin_ws/src/qr/src/yolov5/runs/train/qr_result6/weights/best.pt', help='model path or triton URL')
-    parser.add_argument('--source', type=str, default='0', help='file/dir/URL/glob/screen/0(webcam)')
+    parser.add_argument('--source', type=str, default='2', help='file/dir/URL/glob/screen/0(webcam)')
     parser.add_argument('--data', type=str, default=ROOT / 'data/coco128.yaml', help='(optional) dataset.yaml path')
     parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[640], help='inference size h,w')
     parser.add_argument('--conf-thres', type=float, default=0.25, help='confidence threshold')
