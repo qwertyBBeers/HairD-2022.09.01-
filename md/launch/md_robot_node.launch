@@ -4,7 +4,7 @@
         <param name = "wheel_radius"                value = "0.0535"/>  <!-- unit: meter -->
         <param name = "wheel_length"                value = "0.24565"/>   <!-- unit: meter -->
         <param name = "motor_pole"                  value = "20"/> 
-        <param name = "reduction"                   value = "30"/> 
+        <param name = "reduction"                   value = "1"/> 
         <param name = "reverse_direction"           value = "0"/>       <!-- 0: forward, 1: reverse -->
         <param name = "maxrpm"                      value = "200"/>    <!-- unit: RPM -->
         <param name = "motor_posi"                  value = "0"/>       <!-- motor pisition 0: hall sensor, 1: encoder -->

@@ -50,13 +50,13 @@ void CalcAblePosition()
     // float linear_vel = (velL + velR) / 2;
     // float angular_vel = (velR - velL) / wheel_base;
 
-    // float distance_delta = linear_vel * 0.1;
-    // float angular_delta = angular_vel * 0.1;
+    float distance_delta = linear_vel * 0.1;
+    float angular_delta = angular_vel * 0.1;
 
-    // able_odom.x = able_odom.x + distance_delta * cos(able_odom.theta + angular_delta / 2);
-    // able_odom.y = able_odom.y + distance_delta * sin(able_odom.theta + angular_delta / 2);
+    able_odom.x = able_odom.x + distance_delta * cos(able_odom.theta + angular_delta / 2);
+    able_odom.y = able_odom.y + distance_delta * sin(able_odom.theta + angular_delta / 2);
 
-    // able_odom.theta += angular_delta;
+    able_odom.theta += angular_delta;
 
     geometry_msgs::Quaternion odom_quat = tf::createQuaternionMsgFromYaw(robot_theta);
 
@@ -111,9 +111,9 @@ int main(int argc, char **argv)
     tf::TransformBroadcaster odom_broadcaster;
     //ros::ServiceClient clear_costmaps_client = nh.serviceClient<std_srvs::Empty>("/move_base/clear_costmaps");
     ros::Subscriber robotPose_sub = nh.subscribe("robot_pose", 10, robotPoseCallback);
-    // able_odom.x = 0.0;
-    // able_odom.y = 0.0;
-    // able_odom.theta = 0.0;
+    able_odom.x = 0.0;
+    able_odom.y = 0.0;
+    able_odom.theta = 0.0;
     
     while (ros::ok())
     {
