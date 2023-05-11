@@ -32,7 +32,6 @@ float pose_x = 0.0, pose_y = 0.0, robot_theta = 0.0;
 float linear_vel = 0.0;
 float angular_vel = 0.0;
 
-
 void robotPoseCallback(const omo_r1_bringup::Pose::ConstPtr& msg){ 
   pose_x = msg->x;
   pose_y = msg->y;
@@ -50,22 +49,22 @@ void CalcAblePosition()
     // float linear_vel = (velL + velR) / 2;
     // float angular_vel = (velR - velL) / wheel_base;
 
-    float distance_delta = linear_vel * 0.1;
-    float angular_delta = angular_vel * 0.1;
+    // float distance_delta = linear_vel * 0.1;
+    // float angular_delta = angular_vel * 0.1;
 
-    able_odom.x = able_odom.x + distance_delta * cos(able_odom.theta + angular_delta / 2);
-    able_odom.y = able_odom.y + distance_delta * sin(able_odom.theta + angular_delta / 2);
+    // able_odom.x = able_odom.x + distance_delta * cos(able_odom.theta + angular_delta / 2);
+    // able_odom.y = able_odom.y + distance_delta * sin(able_odom.theta + angular_delta / 2);
 
-    able_odom.theta += angular_delta;
+    // able_odom.theta += angular_delta;
 
-    geometry_msgs::Quaternion odom_quat = tf::createQuaternionMsgFromYaw(robot_theta);
+    geometry_msgs::Quaternion odom_quat = tf::createQuaternionMsgFromYaw(-robot_theta);
 
     odom_trans.header.stamp = current_time;
     odom_trans.header.frame_id = "odom";
     odom_trans.child_frame_id = "base_footprint";
 
-    odom_trans.transform.translation.x = pose_x;
-    odom_trans.transform.translation.y = pose_y;
+    odom_trans.transform.translation.x = -pose_x;
+    odom_trans.transform.translation.y = -pose_y;
     odom_trans.transform.translation.z = 0.0;
     odom_trans.transform.rotation = odom_quat;
 
