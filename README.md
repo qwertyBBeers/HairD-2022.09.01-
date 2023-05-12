@@ -24,3 +24,15 @@ For more information on ROS Packages for Dynamixel SDK, please refer to the ROS 
 - http://wiki.ros.org/dynamixel_sdk
 - http://wiki.ros.org/dynamixel_workbench
 - http://wiki.ros.org/dynamixel_workbench_msgs
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+catkin_ws/src/DynamixelSDK/ros/dynamixel_sdk_examples/src 
+
+cleaner.cpp 와 read_write_node.cpp 생성 및 활용!!
+
+명령어
+
+rosrun dynamixel_sdk_examples read_write_node
+rosrun dynamixel_sdk_examples cleaner
