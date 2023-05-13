@@ -14,7 +14,7 @@ class robot_con
     int qt_con= 1;
     std::string qt_con_str = "";                           //1, 2, 3
     std::string nav_con = "before";          //before, proceeding, done
-    int flag = 1;                            //0, 1
+    int flag = 0;                            //0, 1
     int nav_flag = 0;
 };
 
@@ -37,13 +37,13 @@ bool qtServiceHandler(omo_r1_bringup::qt_check::Request& req, omo_r1_bringup::qt
 }
 
 
-// void qtCallback(const std_msgs::String::ConstPtr& msg)
-// {
-//   if(con.flag == 0){
-//     con.qt_con = std::stoi(msg->data.c_str());
-//     con.flag = 1;
-//   }
-// }
+void qtCallback(const std_msgs::String::ConstPtr& msg)
+{
+  if(con.flag == 0){
+    con.qt_con = std::stoi(msg->data.c_str());
+    con.flag = 1;
+  }
+}
 
 
 
@@ -67,7 +67,7 @@ int main(int argc, char** argv)
 
   ros::Publisher navStart_pub = nh.advertise<std_msgs::Int32>("nav_start_em", 1000);
   ros::Subscriber nav_sub = nh.subscribe("nav_info_em", 1000, navCallback);
-  // ros::Subscriber qt_sub = nh.subscribe("qt_em", 1000, qtCallback);
+  ros::Subscriber qt_sub = nh.subscribe("qt_em", 1000, qtCallback);
 
   
   ros::Rate loop_rate(10);

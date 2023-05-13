@@ -22,7 +22,7 @@ class con:
         self.list_stage = []
         self.listFlag = 0
         self.count = 0
-        self.arm_info = ""
+        self.arm_info = 0
 
 
 def callback(msg):
@@ -170,20 +170,20 @@ def goal_def(list_stage):
         while((abs(current_pose.pose.pose.position.x - goal_test.x) > error) or (abs(current_pose.pose.pose.position.y - goal_test.y) > error)):
             pass
         print("b")
-        if(i == 6):
+        if(i == 4):
             arm_msg = "start"
             arm_pub.publish(arm_msg)
             print("pub arm")
-        while(curr.arm_info is not 1):
-            print("waiting arm")
-            print(curr.arm_info)
-            pass
+            while(curr.arm_info is not 1):
+                print("waiting arm")
+                print(curr.arm_info)
 
     
     print("c")
     nav_info_msg = "done"
     main_pub.publish(nav_info_msg)
     curr.flag = 0
+    curr.arm_info = 0
     curr.listFlag = 0
     curr.count += 1
 

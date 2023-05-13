@@ -2,7 +2,7 @@
   <!-- Arguments -->
   <arg name="map_file" default="$(find omo_r1_navigation)/maps/carelabmap.yaml"/>
   <arg name="open_rviz" default="true"/>
-  <arg name="move_forward_only" default="ture"/>
+  <arg name="move_forward_only" default="true"/>
 
   <!-- OMO R1 -->
   <include file="$(find omo_r1_bringup)/launch/omo_r1_remote_G2.launch"/>
