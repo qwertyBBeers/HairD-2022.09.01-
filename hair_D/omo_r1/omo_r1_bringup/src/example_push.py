@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import rospy
-from std_msgs.msg import Int16
+from std_msgs.msg import Int32
 from std_msgs.msg import Float32MultiArray
 from std_msgs.msg import String
 
@@ -32,7 +32,7 @@ def talker():
 if __name__ == '__main__':
     try:
         rospy.init_node('map_navigation_tal', anonymous=True)
-        tu_pub = rospy.Publisher('stage_info', Int16, queue_size=1)
+        tu_pub = rospy.Publisher('stage_info', Int32, queue_size=1)
         talker()
     except rospy.ROSInterruptException:
         pass
