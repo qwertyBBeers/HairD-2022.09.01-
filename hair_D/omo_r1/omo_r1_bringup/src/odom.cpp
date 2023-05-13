@@ -57,14 +57,15 @@ void CalcAblePosition()
 
     // able_odom.theta += angular_delta;
 
-    geometry_msgs::Quaternion odom_quat = tf::createQuaternionMsgFromYaw(-robot_theta);
+    geometry_msgs::Quaternion odom_quat = tf::createQuaternionMsgFromYaw(robot_theta);
+    geometry_msgs::Quaternion odom_quat2 = tf::createQuaternionMsgFromYaw(robot_theta);
 
     odom_trans.header.stamp = current_time;
     odom_trans.header.frame_id = "odom";
     odom_trans.child_frame_id = "base_footprint";
 
-    odom_trans.transform.translation.x = -pose_x;
-    odom_trans.transform.translation.y = -pose_y;
+    odom_trans.transform.translation.x = pose_x;
+    odom_trans.transform.translation.y = pose_y;
     odom_trans.transform.translation.z = 0.0;
     odom_trans.transform.rotation = odom_quat;
 
@@ -74,7 +75,7 @@ void CalcAblePosition()
     odom.pose.pose.position.x = pose_x;
     odom.pose.pose.position.y = pose_y;
     odom.pose.pose.position.z = 0.0;
-    odom.pose.pose.orientation = odom_quat;
+    odom.pose.pose.orientation = odom_quat2;
     //set the velocity
     odom.child_frame_id = "base_footprint";
     odom.twist.twist.linear.x= linear_vel;

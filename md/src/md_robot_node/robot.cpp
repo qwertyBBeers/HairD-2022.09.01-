@@ -263,8 +263,8 @@ void CalRobotPoseFromPos(PID_PNT_MAIN_DATA_t *pData)
     vel_left = v_left * robotParamData.wheel_radius;
     vel_right = v_right * robotParamData.wheel_radius;
 
-    linear_vel = (vel_right + vel_left) / 2;
-    angular_vel = (vel_right - vel_left) / robotParamData.nWheelLength;
+    linear_vel = -(vel_right + vel_left) / 2;
+    angular_vel = -(vel_right - vel_left) / robotParamData.nWheelLength;
     if(linear_vel > 100 || linear_vel < -100){
         std::cout<<"----------------------------"<<std::endl;
         return;
