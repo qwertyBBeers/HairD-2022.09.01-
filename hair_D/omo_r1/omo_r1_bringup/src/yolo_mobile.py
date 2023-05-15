@@ -55,7 +55,7 @@ def listener():
         print(msg)
         if yolo_info == "detected":
             cmd_pub.publish(msg)
-            print("pub-ing")
+            print("pub-ing!")
         rate.sleep()
 
 if __name__ == '__main__':
