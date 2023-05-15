@@ -24,4 +24,19 @@
     <arg name="set_frame_id" value="$(arg set_lidar_frame_id)"/>
     <arg name="set_port" value="$(arg set_port_lidar)"/>
   </include>
+
+
+  <node pkg="omo_r1_bringup" type="odom" name="odom" output="screen">
+  </node>
+  <node pkg="omo_r1_bringup" type="goal.py" name="goal" output="screen">
+  </node>
+  <node pkg="omo_r1_bringup" type="main_hair" name="main_hair" output="screen">
+  </node>
+  <node pkg="omo_r1_bringup" type="emptying_goal.py" name="emptying_goal" output="screen">
+  </node>
+  <node pkg="omo_r1_bringup" type="emptying" name="emptying" output="screen">
+  </node>
+  <node pkg="omo_r1_bringup" type="yolo_mobile.py" name="yolo_mobile" output="screen">
+  </node>
+
 </launch>
