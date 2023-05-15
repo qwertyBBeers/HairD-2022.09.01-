@@ -107,6 +107,7 @@ catkin_install_python(PROGRAMS
   src/hair_goal.py
   src/goal.py
   src/emptying_goal.py
+  src/yolo_mobile.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
