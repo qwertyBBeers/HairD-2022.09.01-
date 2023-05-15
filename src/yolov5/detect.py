@@ -186,7 +186,7 @@ def run(
 
                     if start ==1 :
                         
-                        if conf >0.9:
+                        if conf >0.5:
 
                             msg=Point()
                             msg.x=center_point[0]
