@@ -56,8 +56,10 @@ using namespace dynamixel;
 #define DXL2_ID               2               // DXL2 ID
 #define DXL3_ID               3               // DXL3 ID
 #define DXL4_ID               4               // DXL4 ID
+#define DXL5_ID               5               // DXL5 ID
+#define DXL6_ID               6               // DXL6 ID
 #define BAUDRATE              57600           // Default Baudrate of DYNAMIXEL X series
-#define DEVICE_NAME           "/dev/ttyUSB1"  // [Linux] To find assigned port, use "$ ls /dev/ttyUSB*" command
+#define DEVICE_NAME           "/dev/ttyUSB0"  // [Linux] To find assigned port, use "$ ls /dev/ttyUSB*" command
 
 PortHandler * portHandler;
 PacketHandler * packetHandler;
@@ -122,7 +124,7 @@ int main(int argc, char ** argv)
     ROS_ERROR("Failed to set the baudrate!");
     return -1;
   }
-/*
+
 
   dxl_comm_result = packetHandler->write1ByteTxRx(
     portHandler, DXL1_ID, ADDR_TORQUE_ENABLE, 1, &dxl_error);
@@ -137,7 +139,7 @@ int main(int argc, char ** argv)
     ROS_ERROR("Failed to enable torque for Dynamixel ID %d", DXL2_ID);
     return -1;
   }
-*/
+
   dxl_comm_result = packetHandler->write1ByteTxRx(
     portHandler, DXL3_ID, ADDR_TORQUE_ENABLE, 1, &dxl_error);
   if (dxl_comm_result != COMM_SUCCESS) {
@@ -148,6 +150,19 @@ int main(int argc, char ** argv)
     portHandler, DXL4_ID, ADDR_TORQUE_ENABLE, 1, &dxl_error);
   if (dxl_comm_result != COMM_SUCCESS) {
     ROS_ERROR("Failed to enable torque for Dynamixel ID %d", DXL4_ID);
+    return -1;
+  }
+
+  dxl_comm_result = packetHandler->write1ByteTxRx(
+    portHandler, DXL5_ID, ADDR_TORQUE_ENABLE, 1, &dxl_error);
+  if (dxl_comm_result != COMM_SUCCESS) {
+    ROS_ERROR("Failed to enable torque for Dynamixel ID %d", DXL5_ID);
+    return -1;
+  }
+  dxl_comm_result = packetHandler->write1ByteTxRx(
+    portHandler, DXL6_ID, ADDR_TORQUE_ENABLE, 1, &dxl_error);
+  if (dxl_comm_result != COMM_SUCCESS) {
+    ROS_ERROR("Failed to enable torque for Dynamixel ID %d", DXL6_ID);
     return -1;
   }
 
