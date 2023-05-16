@@ -21,11 +21,16 @@ class con:
         self.list_stage = []
         self.listFlag = 0
         self.count = 0
+        self.clean_info = "done"
+        self.clean_flag = 0
 
 
 def callback(msg):
     global current_pose
     current_pose = msg
+
+def cleanInfoCallback(msg):
+    curr.clean_info = msg.data
 
 def callbackRoom(data):
     stage = data.data
@@ -254,6 +259,24 @@ def goal_def(list_stage):
         while((abs(current_pose.pose.pose.position.x - goal_test.x) > error) or (abs(current_pose.pose.pose.position.y - goal_test.y) > error)):
             pass
         print("b")
+        if(i == 0):
+            clean_pub_msg = "start"
+            clean_pub.publish(clean_pub_msg)
+            while(curr.clean_info == "yet"):
+                pass
+            curr.clean_info == "done"
+        if(i>0 and i<7):
+            clean_pub_msg = "clean"
+            clean_pub.publish(clean_pub_msg)
+            while(curr.clean_info == "yet"):
+                pass
+            curr.clean_info == "done"
+        if(i == 7):
+            clean_pub_msg = "stop"
+            clean_pub.publish(clean_pub_msg)           
+            while(curr.clean_info == "yet"):
+                pass         
+            curr.clean_info == "done"
     
     print("c")
     nav_info_msg = "done"
@@ -271,8 +294,11 @@ if __name__=='__main__':
 
     curr = con()
     main_pub = rospy.Publisher('nav_info', String, queue_size=10)
+    clean_pub = rospy.Publisher('clean_start', String, queue_size=10)
 
     odom_sub = rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped, callback)
+    clean_sub = rospy.Subscriber('clean_info', String, cleanInfoCallback)
+
     tu_sub = rospy.Subscriber('nav_start', Int32, callbackRoom)
     ac = actionlib.SimpleActionClient("move_base", MoveBaseAction)
     ac.wait_for_server() # !!!!!!!!!!!!!!!!!!!!!!!!!!!

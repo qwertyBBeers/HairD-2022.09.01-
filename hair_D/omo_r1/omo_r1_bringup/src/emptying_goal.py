@@ -30,7 +30,7 @@ def callback(msg):
     current_pose = msg
 
 
-def ArmCallback(msg):
+def cleanInfoCallback(msg):
     curr.arm_info = msg.data
 
 
@@ -171,12 +171,13 @@ def goal_def(list_stage):
             pass
         print("b")
         if(i == 4):
-            arm_msg = "start"
-            arm_pub.publish(arm_msg)
+            clean_msg = "empty_start"
+            clean_pub.publish(clean_msg)
             print("pub arm")
-            while(curr.arm_info is not 1):
+            while(curr.arm_info == "yet"):
                 print("waiting arm")
                 print(curr.arm_info)
+            curr.arm_info == "done"
 
     
     print("c")
@@ -208,11 +209,13 @@ if __name__=='__main__':
 
     curr = con()
     main_pub = rospy.Publisher('nav_info_em', String, queue_size=10)
-    arm_pub = rospy.Publisher('arm_start', String, queue_size=10)
+    clean_pub = rospy.Publisher('clean_start', String, queue_size=10)
+
 
     odom_sub = rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped, callback)
     tu_sub = rospy.Subscriber('nav_start_em', Int32, callbackRoom)
-    arm_sub = rospy.Subscriber('arm_info', Int32, ArmCallback)
+    clean_sub = rospy.Subscriber('clean_info', String, cleanInfoCallback)
+
 
     ac = actionlib.SimpleActionClient("move_base", MoveBaseAction)
     ac.wait_for_server() # !!!!!!!!!!!!!!!!!!!!!!!!!!!
