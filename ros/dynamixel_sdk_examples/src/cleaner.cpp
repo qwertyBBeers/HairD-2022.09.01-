@@ -43,7 +43,7 @@ void init(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_pu
     
 
     set.id = 1;
-    set.position=2810;   
+    set.position=2700;   
     set_position_pub1.publish(set);
 
     set.id = 2;
@@ -66,7 +66,7 @@ void init(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_pu
     set.position=550;
     set_position_pub1.publish(set);
 
-    
+    stop=0;
     
 }
 
@@ -541,6 +541,8 @@ void hair(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_pu
         }
         else{
             ROS_INFO("clean done");
+            
+            degree[3]=0;
             number=0;
             done = 1;
             return;
@@ -582,10 +584,13 @@ void empty(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_p
             six(1,set,set_position_pub1);       //  아래에서 평평하게 해야함!!! -수정필요
         }
         else if(number==101){              //2번 4번 닫기
+            degree[6]=0;
             two(0,set,set_position_pub1);
             four(1,set,set_position_pub1);
         }
         else{
+            degree[2]=0;
+            degree[4]=0;
             number=0;
             done=1;
         }
@@ -620,9 +625,9 @@ int main(int argc,char **argv){
 
 
     while(ros::ok()){
-        if(stop == 1){
+        if(stop == 1){              //초기 상태로 stop눌렀을때!!!
             ROS_INFO("stop");
-            empty(set,set_position_pub1,st,clean_pub);
+            init(set,set_position_pub1);
 
         }
         else if(stop == 0){
