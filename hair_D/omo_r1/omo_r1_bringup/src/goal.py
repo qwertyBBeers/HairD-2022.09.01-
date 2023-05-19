@@ -23,6 +23,8 @@ class con:
         self.count = 0
         self.clean_info = "done"
         self.clean_flag = 0
+        self.round_info = 'done'
+        self.round_flag = 0
 
 
 def callback(msg):
@@ -31,6 +33,9 @@ def callback(msg):
 
 def cleanInfoCallback(msg):
     curr.clean_info = msg.data
+
+def roundInfoCallback(msg):
+    curr.round_info = msg.data
 
 def callbackRoom(data):
     stage = data.data
@@ -272,11 +277,20 @@ def goal_def(list_stage):
                 pass
             curr.clean_info == "done"
         if(i == 7):
+            round_pub_msg = "start"
+            round_pub.publish(round_pub_msg)
+            while(curr.round_info == "yet"):
+                pass  
+            curr.round_info == "done"
+            round_pub_msg = "stop"
+            round_pub.publish(round_pub_msg)
+
             clean_pub_msg = "stop"
             clean_pub.publish(clean_pub_msg)           
             while(curr.clean_info == "yet"):
                 pass         
             curr.clean_info == "done"
+
     
     print("c")
     nav_info_msg = "done"
@@ -295,9 +309,13 @@ if __name__=='__main__':
     curr = con()
     main_pub = rospy.Publisher('nav_info', String, queue_size=10)
     clean_pub = rospy.Publisher('clean_start', String, queue_size=10)
+    round_pub = rospy.Publisher('round_start', String, queue_size=10)
+
 
     odom_sub = rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped, callback)
     clean_sub = rospy.Subscriber('clean_info', String, cleanInfoCallback)
+    round_sub = rospy.Subscriber('round_info', String, roundInfoCallback)
+
 
     tu_sub = rospy.Subscriber('nav_start', Int32, callbackRoom)
     ac = actionlib.SimpleActionClient("move_base", MoveBaseAction)
