@@ -66,9 +66,10 @@ void init(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_pu
     set.position=550;
     set_position_pub1.publish(set);
 
-    stop=0;
     
 }
+
+
 
 void one(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_pub1){
     
@@ -607,6 +608,48 @@ void empty(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_p
     
         
 }
+void stop_init(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_pub1,std_msgs::String st,ros::Publisher clean_pub){
+    if(done==0){
+        st.data="yet";
+        clean_pub.publish(st);
+        if(number>=0 && number<4){            // 1번 3번 올리고 5번올리고 6번 들고 
+            one(0,set,set_position_pub1);
+            three(1,set,set_position_pub1);
+            five(0,set,set_position_pub1);
+            six(1,set,set_position_pub1);
+        }
+        else if(number==4){       //초기화
+            degree[1]=0;
+            degree[3]=0;
+            degree[5]=0;
+            degree[6]=0;
+            number+=1;
+        }
+        else if(number=5){    //2번 4번 닫기 
+            two(0,set,set_position_pub1);
+            four(1,set,set_position_pub1);
+            
+        }
+        else if(number==6){         //초기화
+            degree[2]=0;
+            degree[4]=0;
+            number+=1;
+        }
+        else{
+            number=0;
+            done=1;
+        }
+    }else if(done==1){
+            
+            ROS_INFO("stop done");
+            st.data="done";
+            clean_pub.publish(st);
+            stop=0;
+            return;
+    }
+    
+        
+}
 
 
 
@@ -627,15 +670,15 @@ int main(int argc,char **argv){
     while(ros::ok()){
         if(stop == 1){              //초기 상태로 stop눌렀을때!!!
             ROS_INFO("stop");
-            init(set,set_position_pub1);
+            stop_init(set,set_position_pub1);  //여기 바꿔야함!!! clean_base 에서 천천히 올라가는거 -> 충돌안나게 하려면 어떻게 할까요??? 다른 함수 만들든지해야할듯
 
         }
         else if(stop == 0){
             if(start==0){
                 if(empty_start==0){
-                    
-                    init(set,set_position_pub1);
                     ROS_INFO("init");
+                    init(set,set_position_pub1);
+                    
                 }else if(empty_start==1){
                     empty(set,set_position_pub1,st,clean_pub);
                 }   
