@@ -84,6 +84,10 @@ add_executable(cleaner src/cleaner.cpp)
 add_dependencies(cleaner ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(cleaner ${catkin_LIBRARIES})
 
+add_executable(fix src/fix.cpp)
+add_dependencies(fix ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(fix ${catkin_LIBRARIES})
+
 ################################################################################
 # Install
 ################################################################################

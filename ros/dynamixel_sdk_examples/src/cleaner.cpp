@@ -20,6 +20,7 @@ int count=0;
 void StartCallback(const std_msgs::String::ConstPtr& msg)
 {
     if (msg->data=="start"){
+        stop=0;
         start =1;
         done=0;
     }
@@ -40,8 +41,6 @@ void StartCallback(const std_msgs::String::ConstPtr& msg)
 
 void init(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_pub1){
     
-    
-
     set.id = 1;
     set.position=2700;   
     set_position_pub1.publish(set);
@@ -644,7 +643,6 @@ void stop_init(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_positi
             ROS_INFO("stop done");
             st.data="done";
             clean_pub.publish(st);
-            stop=0;
             return;
     }
     
@@ -670,7 +668,7 @@ int main(int argc,char **argv){
     while(ros::ok()){
         if(stop == 1){              //초기 상태로 stop눌렀을때!!!
             ROS_INFO("stop");
-            stop_init(set,set_position_pub1);  //여기 바꿔야함!!! clean_base 에서 천천히 올라가는거 -> 충돌안나게 하려면 어떻게 할까요??? 다른 함수 만들든지해야할듯
+            stop_init(set,set_position_pub1,st,clean_pub);  //여기 바꿔야함!!! clean_base 에서 천천히 올라가는거 -> 충돌안나게 하려면 어떻게 할까요??? 다른 함수 만들든지해야할듯
 
         }
         else if(stop == 0){
