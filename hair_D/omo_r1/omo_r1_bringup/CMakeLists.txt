@@ -97,10 +97,20 @@ add_executable(odom src/odom.cpp)
 add_dependencies(odom ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(odom ${catkin_LIBRARIES})
 
+add_executable(emptying src/emptying.cpp)
+add_dependencies(emptying ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(emptying ${catkin_LIBRARIES})
+
+add_executable(vel_round src/vel_round.cpp)
+add_dependencies(vel_round ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(vel_round ${catkin_LIBRARIES})
+
+
 catkin_install_python(PROGRAMS
   nodes/omo_r1_motor_node.py
   src/hair_goal.py
   src/goal.py
+  src/emptying_goal.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

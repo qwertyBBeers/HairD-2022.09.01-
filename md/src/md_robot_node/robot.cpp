@@ -162,6 +162,7 @@ void CalRobotPoseFromRPM(PID_PNT_MAIN_DATA_t *pData)
 
     robot_curr_x = robot_old_x + delta_s * cos((long double)(robot_old_theta + (delta_theta / 2.0)));
     robot_curr_y = robot_old_y + delta_s * sin((long double)(robot_old_theta + (delta_theta / 2.0)));
+    ROS_INFO("delta_theta : %f", delta_theta);
     robot_curr_theta = robot_old_theta + delta_theta;
 
     robot_old_x = robot_curr_x;
@@ -208,6 +209,22 @@ void CalRobotPoseFromPos(PID_PNT_MAIN_DATA_t *pData)
     pos_left = pData->mtr_pos_id1;
     pos_right = pData->mtr_pos_id2;
 
+    std::cout<<"pData->mtr_pos_id1: "<<pData->mtr_pos_id1<<std::endl;
+    //std::cout<<"con_nav: "<<con.nav_con<<std::endl;
+
+    // if(pData->mtr_pos_id1 > 100000 || pData->mtr_pos_id2 > 100000){
+    //     std::cout<<"----------------------------"<<std::endl;
+        
+    //     return;
+    // }
+
+    // if(pData->mtr_pos_id1 < -100000 || pData->mtr_pos_id2 < -100000){
+    //     std::cout<<"----------------------------"<<std::endl;
+        
+    //     return;
+    // }
+
+
     if(first_cal == false) {
         first_cal = true;
 
@@ -246,14 +263,24 @@ void CalRobotPoseFromPos(PID_PNT_MAIN_DATA_t *pData)
     vel_left = v_left * robotParamData.wheel_radius;
     vel_right = v_right * robotParamData.wheel_radius;
 
-    linear_vel = (vel_right + vel_left) / 2;
-    angular_vel = (vel_right - vel_left) / robotParamData.nWheelLength;
+    linear_vel = -(vel_right + vel_left) / 2;
+    angular_vel = -(vel_right - vel_left) / robotParamData.nWheelLength;
+    if(linear_vel > 100 || linear_vel < -100){
+        std::cout<<"----------------------------"<<std::endl;
+        return;
+    }
+    if(angular_vel > 100 || angular_vel < -100){
+        std::cout<<"----------------------------"<<std::endl;
+        return;
+    }
 
 #if 0
     ROS_INFO("2-Robot vel: %f : %f", vel_left, vel_right);
 #endif
 
     delta_s = linear_vel * interval_time;
+    std::cout<<"linearr_vel: "<<linear_vel<<std::endl;
+    std::cout<<"linearr_vel: "<<interval_time<<std::endl;
     delta_theta = angular_vel * interval_time;
 
 #if 0
@@ -273,6 +300,8 @@ void CalRobotPoseFromPos(PID_PNT_MAIN_DATA_t *pData)
     robot_pose.theta = robot_curr_theta;
     robot_pose.linear_velocity = linear_vel;
     robot_pose.angular_velocity = angular_vel;
+    std::cout<<"robot_pose.x: "<<robot_pose.x<<std::endl;
+
 
 #if 0
     ROS_INFO("2-pos x:y:th  %f:%f:%f\r\n\r\n", robot_curr_x, robot_curr_y, robot_curr_theta);

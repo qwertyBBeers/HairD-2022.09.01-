@@ -17,7 +17,7 @@ class robot_con
     std::string bbangle_con = "before";      //before, proceeding, done
     std::string yolo_con = "before";         //yet, detected, done
     std::string yolo_check = "stop";         //stop, start
-    int flag = 1;                            //0, 1
+    int flag = 0;                            //0, 1
     int nav_flag = 0;
 };
 
