@@ -1,5 +1,6 @@
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "python.autoComplete.extraPaths": [
         "/home/kim/catkin_ws/devel/lib/python3/dist-packages",
         "/home/kim/arena_ws/devel/lib/python3/dist-packages",
@@ -15,6 +16,8 @@
     ]
 =======
     ],
+=======
+>>>>>>> 55354d5013b52287024e1a9fc6e6dd9464881a60
 =======
 >>>>>>> 55354d5013b52287024e1a9fc6e6dd9464881a60
     "files.associations": {
