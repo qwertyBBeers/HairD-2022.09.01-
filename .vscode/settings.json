@@ -10,6 +10,9 @@
         "/home/kim/arena_ws/devel/lib/python3/dist-packages",
         "/opt/ros/noetic/lib/python3/dist-packages",
         "/home/kim/arena_ws/src/arena-rosnav"
+<<<<<<< HEAD
+    ]
+=======
     ],
     "files.associations": {
         "cctype": "cpp",
@@ -82,4 +85,5 @@
         "typeinfo": "cpp",
         "variant": "cpp"
     }
+>>>>>>> 7d4057130e2c78136a73ee7dedbd5e95cbe3f4b4
 }
