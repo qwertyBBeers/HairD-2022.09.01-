@@ -34,6 +34,7 @@ add_service_files(
   navigation_check.srv
   yolo_check.srv
   qt_check.srv
+  et_check.srv
 )
 
 

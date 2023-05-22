@@ -5,7 +5,7 @@
 #include <omo_r1_bringup/yolo_check.h>
 #include <omo_r1_bringup/navigation_check.h>
 #include "std_msgs/Int32.h"
-#include <omo_r1_bringup/qt_check.h>
+#include <omo_r1_bringup/et_check.h>
 
 
 class robot_con
@@ -22,14 +22,14 @@ robot_con con = robot_con();
 
 
 // 서비스 핸들러 함수
-bool qtServiceHandler(omo_r1_bringup::qt_check::Request& req, omo_r1_bringup::qt_check::Response& res)
+bool etServiceHandler(omo_r1_bringup::et_check::Request& req, omo_r1_bringup::et_check::Response& res)
 {
-    ROS_INFO("Service Request: %s, Service Response: %s", req.qt_req.c_str(), res.qt_res.c_str()); // 로그 출력
+    ROS_INFO("Service Request: %s, Service Response: %s", req.et_req.c_str(), res.et_res.c_str()); // 로그 출력
     if(con.flag == 0)
     {
       std::cout<<"service in"<<std::endl;
-      con.qt_con_str = req.qt_req;
-      con.qt_con = std::stoi(req.qt_req);
+      con.qt_con_str = req.et_req;
+      con.qt_con = std::stoi(req.et_req);
       con.flag = 1;
     }
 
@@ -63,7 +63,7 @@ int main(int argc, char** argv)
   ros::init(argc, argv, "emptying_hair");
   ros::NodeHandle nh;
 
-  ros::ServiceServer service_server = nh.advertiseService("qt_service_em", qtServiceHandler);
+  ros::ServiceServer service_server = nh.advertiseService("et_service", etServiceHandler);
 
   ros::Publisher navStart_pub = nh.advertise<std_msgs::Int32>("nav_start_em", 1000);
   ros::Subscriber nav_sub = nh.subscribe("nav_info_em", 1000, navCallback);
