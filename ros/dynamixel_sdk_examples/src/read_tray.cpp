@@ -52,13 +52,6 @@ using namespace dynamixel;
 #define PROTOCOL_VERSION      2.0             // Default Protocol version of DYNAMIXEL X series.
 
 // Default setting
-#define DXL1_ID               1               // DXL1 ID
-#define DXL2_ID               2               // DXL2 ID
-#define DXL3_ID               3               // DXL3 ID
-#define DXL4_ID               4               // DXL4 ID
-#define DXL5_ID               5               // DXL5 ID
-#define DXL6_ID               6               // DXL6 ID
-
 #define DXL7_ID               7               // DXL7 ID
 #define DXL8_ID               8               // DXL8 ID
 #define BAUDRATE              57600           // Default Baudrate of DYNAMIXEL X series
@@ -128,46 +121,6 @@ int main(int argc, char ** argv)
     return -1;
   }
 
-
-  dxl_comm_result = packetHandler->write1ByteTxRx(
-    portHandler, DXL1_ID, ADDR_TORQUE_ENABLE, 1, &dxl_error);
-  if (dxl_comm_result != COMM_SUCCESS) {
-    ROS_ERROR("Failed to enable torque for Dynamixel ID %d", DXL1_ID);
-    return -1;
-  }
-
-  dxl_comm_result = packetHandler->write1ByteTxRx(
-    portHandler, DXL2_ID, ADDR_TORQUE_ENABLE, 1, &dxl_error);
-  if (dxl_comm_result != COMM_SUCCESS) {
-    ROS_ERROR("Failed to enable torque for Dynamixel ID %d", DXL2_ID);
-    return -1;
-  }
-
-  dxl_comm_result = packetHandler->write1ByteTxRx(
-    portHandler, DXL3_ID, ADDR_TORQUE_ENABLE, 1, &dxl_error);
-  if (dxl_comm_result != COMM_SUCCESS) {
-    ROS_ERROR("Failed to enable torque for Dynamixel ID %d", DXL3_ID);
-    return -1;
-  }
-  dxl_comm_result = packetHandler->write1ByteTxRx(
-    portHandler, DXL4_ID, ADDR_TORQUE_ENABLE, 1, &dxl_error);
-  if (dxl_comm_result != COMM_SUCCESS) {
-    ROS_ERROR("Failed to enable torque for Dynamixel ID %d", DXL4_ID);
-    return -1;
-  }
-
-  dxl_comm_result = packetHandler->write1ByteTxRx(
-    portHandler, DXL5_ID, ADDR_TORQUE_ENABLE, 1, &dxl_error);
-  if (dxl_comm_result != COMM_SUCCESS) {
-    ROS_ERROR("Failed to enable torque for Dynamixel ID %d", DXL5_ID);
-    return -1;
-  }
-  dxl_comm_result = packetHandler->write1ByteTxRx(
-    portHandler, DXL6_ID, ADDR_TORQUE_ENABLE, 1, &dxl_error);
-  if (dxl_comm_result != COMM_SUCCESS) {
-    ROS_ERROR("Failed to enable torque for Dynamixel ID %d", DXL6_ID);
-    return -1;
-  }
   dxl_comm_result = packetHandler->write1ByteTxRx(
     portHandler, DXL7_ID, ADDR_TORQUE_ENABLE, 1, &dxl_error);
   if (dxl_comm_result != COMM_SUCCESS) {
@@ -181,7 +134,7 @@ int main(int argc, char ** argv)
     return -1;
   }
 
-  ros::init(argc, argv, "read_write_node");
+  ros::init(argc, argv, "read_tray");
   ros::NodeHandle nh;
   ros::ServiceServer get_position_srv = nh.advertiseService("/get_position", getPresentPositionCallback);
   ros::Subscriber set_position_sub = nh.subscribe("/set_position", 10, setPositionCallback);

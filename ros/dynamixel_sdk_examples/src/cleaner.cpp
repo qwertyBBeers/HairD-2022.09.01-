@@ -674,7 +674,7 @@ int main(int argc,char **argv){
             if(start==0){
                 if(empty_start==0){
                     ROS_INFO("init");
-                    //stop_init(set,set_position_pub1,st,clean_pub);
+                    stop_init(set,set_position_pub1,st,clean_pub);
                 
                 }else if(empty_start==1){
                     empty(set,set_position_pub1,st,clean_pub);

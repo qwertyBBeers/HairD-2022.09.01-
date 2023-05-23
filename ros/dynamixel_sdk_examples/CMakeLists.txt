@@ -64,6 +64,11 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
+add_executable(read_tray src/read_tray.cpp)
+add_dependencies(read_tray ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(read_tray ${catkin_LIBRARIES})
+
+
 add_executable(read_write_node src/read_write_node.cpp)
 add_dependencies(read_write_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(read_write_node ${catkin_LIBRARIES})

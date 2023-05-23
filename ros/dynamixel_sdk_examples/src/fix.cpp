@@ -21,15 +21,15 @@ void StartCallback(const std_msgs::String::ConstPtr& msg)
 void Open(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_pub1){
     
     set.id = 7;
-    set.position=0;   
+    set.position=2048;   
     set_position_pub1.publish(set);
 
     set.id = 8;
-    set.position=0;
+    set.position=1024;   
     set_position_pub1.publish(set);
 
     set.id = 9;
-    set.position=0;
+    set.position=2048;
     set_position_pub1.publish(set);
 
     mesg=""; 
@@ -38,15 +38,15 @@ void Open(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_pu
 void Close(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_pub1){
     
     set.id = 7;
-    set.position=0;   
+    set.position=1024;   
     set_position_pub1.publish(set);
 
     set.id = 8;
-    set.position=0;
+    set.position=2048;
     set_position_pub1.publish(set);
 
     set.id = 9;
-    set.position=0;
+    set.position=1024;
     set_position_pub1.publish(set);
     
     mesg="";
@@ -69,6 +69,8 @@ int main(int argc,char **argv){
 
 
     while(ros::ok()){
+        
+        
         if(mesg=="open"){
             ROS_INFO("open");
             Open(set,set_position_pub1);
@@ -77,7 +79,9 @@ int main(int argc,char **argv){
             Close(set,set_position_pub1);
         }else{
             ROS_INFO("wait");
-        }
+        }    
+        
+        
         
         
         ros::spinOnce();
