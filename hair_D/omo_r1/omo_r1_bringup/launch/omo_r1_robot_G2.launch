@@ -40,5 +40,7 @@
   </node>
   <node pkg="omo_r1_bringup" type="vel_round" name="vel_round" output="screen">
   </node>
+  <node pkg="omo_r1_bringup" type="costmap_clear" name="costmap_clear" output="screen">
+  </node>
 
 </launch>

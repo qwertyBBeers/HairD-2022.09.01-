@@ -106,6 +106,10 @@ add_executable(vel_round src/vel_round.cpp)
 add_dependencies(vel_round ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 target_link_libraries(vel_round ${catkin_LIBRARIES})
 
+add_executable(costmap_clear src/costmap_clear.cpp)
+add_dependencies(costmap_clear ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(costmap_clear ${catkin_LIBRARIES})
+
 
 catkin_install_python(PROGRAMS
   nodes/omo_r1_motor_node.py
