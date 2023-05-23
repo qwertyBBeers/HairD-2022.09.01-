@@ -59,7 +59,7 @@ using namespace dynamixel;
 #define DXL5_ID               5               // DXL5 ID
 #define DXL6_ID               6               // DXL6 ID
 #define BAUDRATE              57600           // Default Baudrate of DYNAMIXEL X series
-#define DEVICE_NAME           "/dev/ttyUSB0"  // [Linux] To find assigned port, use "$ ls /dev/ttyUSB*" command
+#define DEVICE_NAME           "/dev/ttyUSB1"  // [Linux] To find assigned port, use "$ ls /dev/ttyUSB*" command
 
 PortHandler * portHandler;
 PacketHandler * packetHandler;

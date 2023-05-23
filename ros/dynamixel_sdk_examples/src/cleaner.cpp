@@ -20,6 +20,7 @@ int count=0;
 void StartCallback(const std_msgs::String::ConstPtr& msg)
 {
     if (msg->data=="start"){
+        ROS_INFO("start");
         stop=0;
         start =1;
         done=0;
@@ -34,6 +35,7 @@ void StartCallback(const std_msgs::String::ConstPtr& msg)
         done=0;
     }
     if(msg->data == "empty_start"){
+        stop=0;
         empty_start=1;
         done=0;
     }
@@ -42,19 +44,19 @@ void StartCallback(const std_msgs::String::ConstPtr& msg)
 void init(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_pub1){
     
     set.id = 1;
-    set.position=2700;   
+    set.position=2500;   
     set_position_pub1.publish(set);
 
     set.id = 2;
-    set.position=3500;
+    set.position=1500;
     set_position_pub1.publish(set);
 
     set.id = 3;
-    set.position=2500;
+    set.position=2500;  
     set_position_pub1.publish(set);
 
     set.id = 4;
-    set.position=2500;
+    set.position=1500;
     set_position_pub1.publish(set);
 
     set.id = 5;
@@ -67,16 +69,13 @@ void init(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_pu
 
     
 }
-
-
-
 void one(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_pub1){
     
 
     if (status==1){
         ROS_INFO("down");
         time_count++;
-        init_position=2700;
+        init_position=2500;
         if(time_count >=1){
             time_count=0;
             count++;
@@ -89,7 +88,7 @@ void one(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_p
                 return;
             }
             else if(count>=0){
-                degree[1] = degree[1]+32;
+                degree[1] = degree[1]+28;
             }
        }
         set.id=1;
@@ -106,7 +105,7 @@ void one(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_p
             time_count=0;
             count++;
 
-            if((init_position+degree[1])>=2700){
+            if((init_position+degree[1])>=2500){
                 
                 count=0;
                 number+=1;
@@ -114,7 +113,7 @@ void one(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_p
                 return;
             }
             else if(count>=0){
-                degree[1] = degree[1]+32;
+                degree[1] = degree[1]+28;
             }
        }
         set.id=1;
@@ -127,30 +126,30 @@ void one(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_p
         ROS_INFO("end");
         
     }
-} // 0 위 , 1 아래         -1600-32  //수정예정
+} // 0 위 , 1 아래         -1400-28  
 void two(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_pub1){
     
 
     if (status==1){
         ROS_INFO("open");
         time_count++;
-        init_position=3500;
+        init_position=1500;
         if(time_count >=1){
             time_count=0;
             count++;
 
-            if((init_position-degree[2])<=2000){
+            if((init_position+degree[2])>=2800){
                 count=0;
                 status=2;
                 number+=1; 
                 return;
             }
             else if(count>=0){
-                degree[2] = degree[2]+30;
+                degree[2] = degree[2]+26;
             }
        }
         set.id=2;
-        set.position=init_position-degree[2];
+        set.position=init_position+degree[2];
         set_position_pub1.publish(set);
         ROS_INFO("id : %d , set.position :%d",set.id,set.position);  
         
@@ -159,13 +158,13 @@ void two(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_p
     else if(status==0){
         ROS_INFO("close");  
         time_count++;
-        init_position=2000;
+        init_position=2800;
         
         if(time_count >=1){
             time_count=0;
             count++;
 
-            if((init_position+degree[2])>=3500){
+            if((init_position-degree[2])<=1500){
                
                 count=0;
                 number+=1;
@@ -173,11 +172,11 @@ void two(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_p
                 return;
             }
             else if(count>=0){
-                degree[2] = degree[2]+30;
+                degree[2] = degree[2]+26;
             }
        }
         set.id=2;
-        set.position=init_position+degree[2];
+        set.position=init_position-degree[2];
         set_position_pub1.publish(set);  
         ROS_INFO("id : %d , set.position :%d",set.id,set.position);      
     }
@@ -186,7 +185,7 @@ void two(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_p
         ROS_INFO("end");
         
     }
-} // 0 닫힘 , 1 오픈        -1500-30
+} // 0 닫힘 , 1 오픈        -1300-26
 void three(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_pub1){
     
 
@@ -244,30 +243,30 @@ void three(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set
         ROS_INFO("end");
         
     }
-} // 0 아래 , 1 위          -1500-30  //수정예정
+} // 0 아래 , 1 위          -1500-30  
 void four(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_pub1){
     
 
     if (status==1){
         ROS_INFO("close");
         time_count++;
-        init_position=4000;
+        init_position=300;
         if(time_count >=1){
             time_count=0;
             count++;
 
-            if((init_position-degree[4])<=2500){
+            if((init_position+degree[4])>=1500){
                 count=0;
                 status=2;
                 number+=1; 
                 return;
             }
             else if(count>=0){
-                degree[4] = degree[4]+30;
+                degree[4] = degree[4]+24;
             }
        }
         set.id=4;
-        set.position=init_position-degree[4];
+        set.position=init_position+degree[4];
         set_position_pub1.publish(set);
         ROS_INFO("id : %d , set.position :%d",set.id,set.position);  
         
@@ -276,13 +275,13 @@ void four(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_
     else if(status==0){
         ROS_INFO("open");  
         time_count++;
-        init_position=2500;
+        init_position=1500;
         
         if(time_count >=1){
             time_count=0;
             count++;
 
-            if((init_position+degree[4])>=4000){
+            if((init_position-degree[4])<=300){
                
                 count=0;
                 number+=1;
@@ -290,11 +289,11 @@ void four(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_
                 return;
             }
             else if(count>=0){
-                degree[4] = degree[4]+30;
+                degree[4] = degree[4]+24;
             }
        }
         set.id=4;
-        set.position=init_position+degree[4];
+        set.position=init_position-degree[4];
         set_position_pub1.publish(set);  
         ROS_INFO("id : %d , set.position :%d",set.id,set.position);      
     }
@@ -303,19 +302,19 @@ void four(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_
         ROS_INFO("end");
         
     }
-} // 0 오픈 , 1 닫힘        -1500-30
+} // 0 오픈 , 1 닫힘        -1200-24
 void five(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_pub1){
     
 
     if (status==1){
         ROS_INFO("down");
         time_count++;
-        init_position=4000; //3480
+        init_position=3970; //3480
         if(time_count >=1){
             time_count=0;
             count++;
 
-            if((init_position-degree[5])<=0){
+            if((init_position-degree[5])<=1370){
                 count=0;
                 number+=1;
                 status=2;
@@ -323,7 +322,7 @@ void five(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_
                 return;
             }
             else if(count>=0){
-                degree[5] = degree[5]+80;
+                degree[5] = degree[5]+52;
             }
        }
         set.id=5;
@@ -335,12 +334,12 @@ void five(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_
     else if(status==0){
         ROS_INFO("up");  
         time_count++;
-        init_position=0;
+        init_position=1370;
         if(time_count >=1){
             time_count=0;
             count++;
 
-            if((init_position+degree[5])>=4000){
+            if((init_position+degree[5])>=3970){
                 
                 count=0;
                 number+=1;
@@ -348,7 +347,7 @@ void five(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_
                 return;
             }
             else if(count>=0){
-                degree[5] = degree[5]+80;
+                degree[5] = degree[5]+52;
             }
        }
         set.id=5;
@@ -361,7 +360,7 @@ void five(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_
         ROS_INFO("end");
         
     }
-} // 0 위 ,1 아래          - 4000-80  
+} // 0 위 ,1 아래          - 4000-80  //변경예정
 void six(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_pub1){
     
 
@@ -373,14 +372,14 @@ void six(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_p
             time_count=0;
             count++;
 
-            if((init_position-degree[6])<=550){
+            if((init_position-degree[6])<=530){
                 count=0;
                 status=3;
                 number+=1; 
                 return;
             }
             else if(count>=0){
-                degree[6] = degree[6]+15;
+                degree[6] = degree[6]+10;
             }
        }
         set.id=6;
@@ -393,7 +392,7 @@ void six(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_p
     else if(status==0){
         ROS_INFO("-  평평");  
         time_count++;
-        init_position=550;
+        init_position=530;
         
         if(time_count >=1){
             time_count=0;
@@ -407,7 +406,7 @@ void six(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_p
                 return;
             }
             else if(count>=0){
-                degree[6] = degree[6]+15;
+                degree[6] = degree[6]+10;
             }
        }
         set.id=6;
@@ -424,7 +423,7 @@ void six(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_p
             time_count=0;
             count++;
 
-            if((init_position+degree[6])>=1510){
+            if((init_position+degree[6])>=1530){
                
                 count=0;
                 number+=1;
@@ -432,7 +431,7 @@ void six(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_p
                 return;
             }
             else if(count>=0){
-                degree[6] = degree[6]+15;
+                degree[6] = degree[6]+10;
             }
        }
         set.id=6;
@@ -445,42 +444,40 @@ void six(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_p
         ROS_INFO("end");
         
     }
-} // 0 평평 ,1 위 , 2 아래  - 480 -15
+} // 0 평평 ,1 위 , 2 아래  - 500 -10
 
 void clean_base(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_pub1,std_msgs::String st,ros::Publisher clean_pub){
     if(done==0){
         st.data="yet";
         clean_pub.publish(st);    
         if(number==0){
-            //ROS_INFO("5,6 run");
-            six(0,set,set_position_pub1); 
-            five(1,set,set_position_pub1); //5 down
-        }
-        else if(number==1){
-            //ROS_INFO("5 run");    
-            five(1,set,set_position_pub1); //5 down
-            degree[6]=0;
+            three(0,set,set_position_pub1);
+            four(0,set,set_position_pub1);
         }
         else if(number==2){
             //ROS_INFO("1,2,3,4 run");
-            degree[5]=0;
-            one(1,set,set_position_pub1);
-            three(0,set,set_position_pub1);
-            two(1,set,set_position_pub1);
-            four(0,set,set_position_pub1);
-            
-        }
-        else if(number==6){
-            degree[1]=0;
-            degree[2]=0;
             degree[3]=0;
             degree[4]=0;
-            number+=1;
+            one(1,set,set_position_pub1);
+            two(1,set,set_position_pub1);
+            
         }
-        else{
+        else if(number==4){
+            degree[1]=0;
+            degree[2]=0;
 
+            //ROS_INFO("5,6 run");
+            six(0,set,set_position_pub1); 
+            five(1,set,set_position_pub1); //5 down
+
+        }
+        else if(number==6){
+
+            degree[5]=0;
+            degree[6]=0;
             number=0;
             done=1;
+            return;
         }
     }else if(done==1){
 
@@ -608,6 +605,7 @@ void empty(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_p
         
 }
 void stop_init(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_pub1,std_msgs::String st,ros::Publisher clean_pub){
+    
     if(done==0){
         st.data="yet";
         clean_pub.publish(st);
@@ -616,6 +614,7 @@ void stop_init(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_positi
             three(1,set,set_position_pub1);
             five(0,set,set_position_pub1);
             six(1,set,set_position_pub1);
+            ROS_INFO("number : %d",number);
         }
         else if(number==4){       //초기화
             degree[1]=0;
@@ -624,17 +623,15 @@ void stop_init(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_positi
             degree[6]=0;
             number+=1;
         }
-        else if(number=5){    //2번 4번 닫기 
+        else if(number==5){    //2번 4번 닫기 
             two(0,set,set_position_pub1);
             four(1,set,set_position_pub1);
             
         }
-        else if(number==6){         //초기화
+        else {         //초기화
+
             degree[2]=0;
             degree[4]=0;
-            number+=1;
-        }
-        else{
             number=0;
             done=1;
         }
@@ -664,19 +661,21 @@ int main(int argc,char **argv){
     ros::Rate loop_rate(10);
         
 
-
     while(ros::ok()){
+        //ROS_ERROR("done %d",done);
+
         if(stop == 1){              //초기 상태로 stop눌렀을때!!!
             ROS_INFO("stop");
-            stop_init(set,set_position_pub1,st,clean_pub);  //여기 바꿔야함!!! clean_base 에서 천천히 올라가는거 -> 충돌안나게 하려면 어떻게 할까요??? 다른 함수 만들든지해야할듯
-
+            //init(set,set_position_pub1,st,clean_pub);  //여기 바꿔야함!!! clean_base 에서 천천히 올라가는거 -> 충돌안나게 하려면 어떻게 할까요??? 다른 함수 만들든지해야할듯
+            stop_init(set,set_position_pub1,st,clean_pub);
+                
         }
         else if(stop == 0){
             if(start==0){
                 if(empty_start==0){
                     ROS_INFO("init");
-                    init(set,set_position_pub1);
-                    
+                    //stop_init(set,set_position_pub1,st,clean_pub);
+                
                 }else if(empty_start==1){
                     empty(set,set_position_pub1,st,clean_pub);
                 }   
@@ -694,6 +693,7 @@ int main(int argc,char **argv){
             }
        
         }
+        
         
             
         
