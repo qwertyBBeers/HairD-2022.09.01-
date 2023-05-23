@@ -1,6 +1,6 @@
 <launch>
   <!-- Arguments -->
-  <arg name="map_file" default="$(find omo_r1_navigation)/maps/carelabmap.yaml"/>
+  <arg name="map_file" default="$(find omo_r1_navigation)/maps/captain2.yaml"/>
   <arg name="open_rviz" default="true"/>
   <arg name="move_forward_only" default="true"/>
 

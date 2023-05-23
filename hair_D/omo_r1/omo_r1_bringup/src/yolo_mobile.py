@@ -34,14 +34,14 @@ def listener():
     vel =0.0
     while not rospy.is_shutdown():
         print(cen_x)
-        if cen_x>305 and cen_x<400:    #차가 오른쪽으로 조금 더 가있음  -> 왼쪽으로 조금 회전
+        if cen_x>304 and cen_x<400:    #차가 오른쪽으로 조금 더 가있음  -> 왼쪽으로 조금 회전
             ang = -0.1
         elif cen_x>=400:               
-            ang = -0.15
-        elif cen_x<295 and cen_x>200:
+            ang = -0.13
+        elif cen_x<296 and cen_x>200:
             ang = 0.1
         elif cen_x<=200 and cen_x>0:
-            ang = 0.15
+            ang = 0.13
         else:
             ang = 0.0
         # if cen_y > 100:
@@ -53,6 +53,7 @@ def listener():
         msg.angular.z = ang 
         msg.linear.x = -0.02
         print(msg)
+        print(yolo_info)
         if yolo_info == "detected":
             cmd_pub.publish(msg)
             print("pub-ing!")

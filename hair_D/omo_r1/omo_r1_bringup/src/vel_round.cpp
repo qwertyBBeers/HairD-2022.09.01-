@@ -49,7 +49,7 @@ int main(int argc, char** argv)
     ros::Subscriber clean_sub = nh.subscribe("clean_info", 1000, cleanCallback);
 
     // 로봇 파라미터 설정
-    double wheel_radius = 0.0535;  // 바퀴 반지름
+    double wheel_radius = 0.053;  // 바퀴 반지름
     double wheel_distance = 0.24564;  // 바퀴 간의 사이 거리
     double rotate_time = 5.0;
     
@@ -57,7 +57,7 @@ int main(int argc, char** argv)
     std_msgs::String round_msg;
     std_msgs::String clean_msg;
     // 원을 돌기 위한 파라미터 설정
-    double circle_radius = 0.5;  // 원의 반지름
+    double circle_radius = 0.55;  // 원의 반지름
     double linear_speed = M_PI * circle_radius / 12.0;  // 원을 한 바퀴 돌기 위한 선속도
     double angular_speed = linear_speed / circle_radius;  // 원을 한 바퀴 돌기 위한 각속도
     double angular_rotate = M_PI/rotate_time;
@@ -111,7 +111,7 @@ int main(int argc, char** argv)
                 std::cout<<"222222222222222222222222222222222222222222222222222222222222222222222222222222"<<std::endl;
             }
 
-            else if((current_time - start_time).toSec() <= 5.0 && check.clean_val == 2)
+            else if((current_time - start_time).toSec() <= 5.5 && check.clean_val == 2)
             {
                 cmd_vel.linear.x = 0.0;
                 cmd_vel.angular.z = angular_rotate;
@@ -124,7 +124,7 @@ int main(int argc, char** argv)
                 std::cout<<"3333333333333333333333333333333333333333333333333333333333333333333333"<<std::endl;
             }
 
-            else if((current_time - start_time).toSec() >= 5.0 && (current_time - start_time).toSec() <= 15.0 && check.clean_val == 2)
+            else if((current_time - start_time).toSec() >= 5.5 && (current_time - start_time).toSec() <= 25.5 && check.clean_val == 2)
             {
                 // cmd_vel 값 설정
                 cmd_vel.linear.x = linear_speed;
@@ -139,7 +139,7 @@ int main(int argc, char** argv)
                 std::cout<<"444444444444444444444444444444444444444444444444444444444444444444444444"<<std::endl;
             }
 
-            else if((current_time - start_time).toSec() >= 15.0 && check.clean_val == 2){
+            else if((current_time - start_time).toSec() >= 25.0 && check.clean_val == 2){
                 cmd_vel.linear.x = 0.0;
                 cmd_vel.angular.z = 0.0;
                 cmd_vel_pub.publish(cmd_vel);
