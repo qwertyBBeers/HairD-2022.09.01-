@@ -16,6 +16,7 @@ class robot_con
     std::string nav_con = "before";          //before, proceeding, done
     int flag = 0;                            //0, 1
     int nav_flag = 0;
+    std::string fix_con = "close";         //open, close
 };
 
 robot_con con = robot_con();
@@ -56,6 +57,11 @@ void navCallback(const std_msgs::String::ConstPtr& msg)
   }
 }
 
+void fixCallback(const std_msgs::String::ConstPtr& msg)
+{
+  con.fix_con = msg->data;
+  std::cout<<con.fix_con<<std::endl;
+}
 
 
 int main(int argc, char** argv)
@@ -66,28 +72,50 @@ int main(int argc, char** argv)
   ros::ServiceServer service_server = nh.advertiseService("et_service", etServiceHandler);
 
   ros::Publisher navStart_pub = nh.advertise<std_msgs::Int32>("nav_start_em", 1000);
+  ros::Publisher fixStart_pub = nh.advertise<std_msgs::String>("fix_start", 1000);
+
+
   ros::Subscriber nav_sub = nh.subscribe("nav_info_em", 1000, navCallback);
   ros::Subscriber qt_sub = nh.subscribe("qt_em", 1000, qtCallback);
+  ros::Subscriber fix_sub = nh.subscribe("fix_info", 1000, fixCallback);
+
 
   
   ros::Rate loop_rate(10);
   while (ros::ok())
   {
     if(con.flag == 1){
-        if (con.nav_con == "before"){                                                           //before cleaning
-            std_msgs::Int32 nav_msg;
-            nav_msg.data = con.qt_con;
+      if(con.fix_con == "close"){
+        std_msgs::String fix_msg;
+        fix_msg.data = "open";
+        fixStart_pub.publish(fix_msg);
 
-            navStart_pub.publish(nav_msg);
+        while(con.fix_con == "close"){
+            
         }
-        if (con.nav_con == "done"){
-            std_msgs::Int32 nav_msg;
-            nav_msg.data = 0;
-            con.qt_con = 0;
-            navStart_pub.publish(nav_msg);
+      }
+      if (con.nav_con == "before"){                                                           //before cleaning
+        std_msgs::Int32 nav_msg;
+        nav_msg.data = con.qt_con;
+
+        navStart_pub.publish(nav_msg);
+      }
+      if (con.nav_con == "done"){
+        std_msgs::Int32 nav_msg;
+        nav_msg.data = 0;
+        con.qt_con = 0;
+        navStart_pub.publish(nav_msg);
+
+        std_msgs::String fix_msg;
+        fix_msg.data = "close";
+        fixStart_pub.publish(fix_msg);
+
+        while(con.fix_con == "open"){
+            
+        }
         
-            con.flag = 0; 
-            con.nav_flag = 0; 
+        con.flag = 0; 
+        con.nav_flag = 0; 
       }
     }
     ros::spinOnce();

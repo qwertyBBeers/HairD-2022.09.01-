@@ -19,6 +19,7 @@ class robot_con
     std::string yolo_check = "stop";         //stop, start
     int flag = 0;                            //0, 1
     int nav_flag = 0;
+    std::string fix_con = "close";         //open, close
 };
 
 robot_con con = robot_con();
@@ -75,6 +76,12 @@ void yoloCallback(const std_msgs::String::ConstPtr& msg)
   std::cout<<con.yolo_con<<std::endl;
 }
 
+void fixCallback(const std_msgs::String::ConstPtr& msg)
+{
+  con.fix_con = msg->data;
+  std::cout<<con.fix_con<<std::endl;
+}
+
 
 
 int main(int argc, char** argv)
@@ -87,18 +94,31 @@ int main(int argc, char** argv)
   ros::Publisher navStart_pub = nh.advertise<std_msgs::Int32>("nav_start", 1000);
   ros::Publisher bbangleStart_pub = nh.advertise<std_msgs::String>("bbangle_start", 1000);
   ros::Publisher yoloStart_pub = nh.advertise<std_msgs::String>("yolo_start", 1000);
+  ros::Publisher fixStart_pub = nh.advertise<std_msgs::String>("fix_start", 1000);
 
 
   //ros::Subscriber qt_sub = nh.subscribe("qt_info", 1000, qtCallback);
   ros::Subscriber nav_sub = nh.subscribe("nav_info", 1000, navCallback);
   ros::Subscriber bbangle_sub = nh.subscribe("bbangle_info", 1000, bbangleCallback);
   ros::Subscriber yolo_sub = nh.subscribe("yolo_info", 1000, yoloCallback);
+  ros::Subscriber fix_sub = nh.subscribe("fix_info", 1000, fixCallback);
+
   
   ros::Rate loop_rate(10);
   while (ros::ok())
   {
     std::cout<<"con_flag: "<<con.flag<<std::endl;
     if (con.flag == 1){
+      if(con.fix_con == "close"){
+        std_msgs::String fix_msg;
+        fix_msg.data = "open";
+        fixStart_pub.publish(fix_msg);
+
+        while(con.fix_con == "close"){
+            
+        }
+      }
+
       if (con.nav_con == "before" && con.nav_flag == 0){                                                           //before cleaning
         std_msgs::Int32 nav_msg;
         nav_msg.data = con.qt_con;
@@ -151,7 +171,14 @@ int main(int argc, char** argv)
           nav_msg.data = 0;
           con.qt_con = 0;
           navStart_pub.publish(nav_msg);
-        
+
+          std_msgs::String fix_msg;
+          fix_msg.data = "close";
+          fixStart_pub.publish(fix_msg);
+
+          while(con.fix_con == "open"){
+            
+          }
           con.flag = 0; 
           con.nav_flag = 0; 
         }
