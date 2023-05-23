@@ -38,5 +38,7 @@
   </node>
   <node pkg="omo_r1_bringup" type="yolo_mobile.py" name="yolo_mobile" output="screen">
   </node>
+  <node pkg="omo_r1_bringup" type="vel_round" name="vel_round" output="screen">
+  </node>
 
 </launch>
