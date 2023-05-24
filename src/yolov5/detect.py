@@ -209,7 +209,7 @@ def run(
                         c = int(cls)  # integer class
                         # label is (class name and number of accuracy)
                         label = None if hide_labels else (names[c] if hide_conf else f'{names[c]} {conf:.2f}') 
-                        # annotator.box_label(xyxy, label, color=colors(c, True)) # 라벨링 및 테두리 표시코드
+                        annotator.box_label(xyxy, label, color=colors(c, True)) # 라벨링 및 테두리 표시코드
                         
                     if save_crop:
                         save_one_box(xyxy, imc, file=save_dir / 'crops' / names[c] / f'{p.stem}.jpg', BGR=True)
@@ -279,8 +279,8 @@ def Start():
 
 def parse_opt():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--weights', nargs='+', type=str, default='/home/psi/catkin_ws/src/qr/src/yolov5/runs/train/qr_result6/weights/best.pt', help='model path or triton URL')
-    parser.add_argument('--source', type=str, default='2', help='file/dir/URL/glob/screen/0(webcam)')
+    parser.add_argument('--weights', nargs='+', type=str, default='/home/captain/catkin_ws/src/git_yolo/src/yolov5/runs/train/05.24.QR6/weights/best.pt', help='model path or triton URL')
+    parser.add_argument('--source', type=str, default='0', help='file/dir/URL/glob/screen/0(webcam)')
     parser.add_argument('--data', type=str, default=ROOT / 'data/coco128.yaml', help='(optional) dataset.yaml path')
     parser.add_argument('--imgsz', '--img', '--img-size', nargs='+', type=int, default=[640], help='inference size h,w')
     parser.add_argument('--conf-thres', type=float, default=0.25, help='confidence threshold')
