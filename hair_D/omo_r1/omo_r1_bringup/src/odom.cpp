@@ -6,6 +6,7 @@
 #include <std_msgs/Float32.h>
 #include <tf/transform_broadcaster.h>
 #include <nav_msgs/Odometry.h>
+#include <nav_msgs/Path.h>
 #include <omo_r1_bringup/Pose.h>
 #include "std_srvs/Empty.h"
 
@@ -25,6 +26,8 @@ int costmap_time = 0;
 geometry_msgs::Pose2D able_odom;
 nav_msgs::Odometry odom;
 geometry_msgs::TransformStamped odom_trans;
+static nav_msgs::Path path;
+
 float dt;
 ros::Time current_time, last_time;
 
@@ -96,6 +99,17 @@ void CalcAblePosition()
         able_odom.theta = able_odom.theta - 2 * math_pi;
     }
     */
+
+    path.header.stamp=odom.header.stamp;
+    path.header.frame_id = odom.header.frame_id;
+
+    geometry_msgs::PoseStamped pose_stamped;
+    pose_stamped.pose = odom.pose.pose;
+    pose_stamped.header = odom.header;
+    path.poses.push_back(pose_stamped);
+
+
+
 }
 
 
@@ -108,6 +122,8 @@ int main(int argc, char **argv)
     ros::Rate loop_rate(10);
 
     ros::Publisher pub_able_odom = nh.advertise<nav_msgs::Odometry>("odom", 10);
+    ros::Publisher pub_path = nh.advertise<nav_msgs::Path>("path", 10);
+
     tf::TransformBroadcaster odom_broadcaster;
     //ros::ServiceClient clear_costmaps_client = nh.serviceClient<std_srvs::Empty>("/move_base/clear_costmaps");
     ros::Subscriber robotPose_sub = nh.subscribe("robot_pose", 10, robotPoseCallback);
@@ -120,6 +136,7 @@ int main(int argc, char **argv)
         CalcAblePosition();
         odom_broadcaster.sendTransform(odom_trans);
         pub_able_odom.publish(odom);
+        pub_path.publish(path);
         // if(costmap_time == 50){
         //     if(clear_costmaps_client.call(srv))
         //         {
