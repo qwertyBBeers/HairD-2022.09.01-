@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>calendar.png</file>
+        <file>chair_icon.png</file>
+        <file>dustbin.png</file>
+        <file>music.png</file>
+        <file>white_calendar.png</file>
+    </qresource>
+    <qresource prefix="/fonts">
+        <file>Binggrae.ttf</file>
+        <file>Binggrae_Bold.ttf</file>
+    </qresource>
+</RCC>

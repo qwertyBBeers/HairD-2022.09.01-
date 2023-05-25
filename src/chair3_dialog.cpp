@@ -1,0 +1,51 @@
+#include "chair3_dialog.h"
+#include "ui_chair3_dialog.h"
+#include <captin_qt_pkg/qt_check.h>
+
+
+Chair3_Dialog::Chair3_Dialog(QWidget *parent) :
+    QDialog(parent, Qt::FramelessWindowHint),
+    ui(new Ui::Chair3_Dialog)
+{
+    ui->setupUi(this);
+    client_ = nh_.serviceClient<captin_qt_pkg::qt_check>("qt_service");
+    captin_qt_pkg::qt_check srv;
+}
+
+Chair3_Dialog::~Chair3_Dialog()
+{
+    delete ui;
+}
+
+void Chair3_Dialog::spinOnce()
+{
+    if(ros::ok()){
+        ros::spinOnce();
+    }
+    else
+        QApplication::quit();
+}
+
+void Chair3_Dialog::on_cleanbtn_clicked()
+{
+
+    captin_qt_pkg::qt_check srv;
+    srv.request.qt_req = "3";
+    client_.call(srv);
+
+}
+
+
+void Chair3_Dialog::on_movebtn_clicked()
+{
+    captin_qt_pkg::qt_check srv;
+    srv.request.qt_req = "33";
+    client_.call(srv);
+}
+
+
+void Chair3_Dialog::on_cancel_clicked()
+{
+    close();
+}
+
