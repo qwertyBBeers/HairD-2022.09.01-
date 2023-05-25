@@ -28,11 +28,11 @@
 
   <node pkg="omo_r1_bringup" type="odom" name="odom" output="screen">
   </node>
-  <!-- <node pkg="omo_r1_bringup" type="goal.py" name="goal" output="screen">
+  <node pkg="omo_r1_bringup" type="goal.py" name="goal" output="screen">
   </node>
   <node pkg="omo_r1_bringup" type="main_hair" name="main_hair" output="screen">
   </node>
-  <node pkg="omo_r1_bringup" type="emptying_goal.py" name="emptying_goal" output="screen">
+  <!-- <node pkg="omo_r1_bringup" type="emptying_goal.py" name="emptying_goal" output="screen">
   </node>
   <node pkg="omo_r1_bringup" type="emptying" name="emptying" output="screen">
   </node>

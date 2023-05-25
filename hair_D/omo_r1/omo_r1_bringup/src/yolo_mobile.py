@@ -50,10 +50,10 @@ def listener():
         #     vel = -0.015
         # else:
         #     vel = 0.0
-        if cen_y <200:
+        if cen_y <70:
             vel = 0.0
             ang = 0.0
-        elif cen_y<260 and cen_y>= 200:
+        elif cen_y<200 and cen_y>= 70:
             vel = -0.02
             if ang > 0:
                 ang = 0.05
@@ -61,7 +61,7 @@ def listener():
                 ang = -0.05
         else:
             vel = -0.02
-        msg.angular.z = -ang 
+        msg.angular.z = ang 
         msg.linear.x = vel
         print(msg)
         print(yolo_info)

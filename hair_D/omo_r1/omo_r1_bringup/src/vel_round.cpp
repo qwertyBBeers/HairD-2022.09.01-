@@ -109,7 +109,7 @@ int main(int argc, char** argv)
             else if((current_time - start_time).toSec() <= 5.5 && check.clean_val == 2)
             {
                 cmd_vel.linear.x = 0.0;
-                cmd_vel.angular.z = angular_rotate;
+                cmd_vel.angular.z = -angular_rotate;
                 // cmd_vel 메시지 발송
                 cmd_vel_pub.publish(cmd_vel);
                 round_msg.data = "yet";
