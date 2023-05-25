@@ -69,37 +69,37 @@ def callbackRoom(data):
         for i in range(1,9):
         #목적지 순서당 가지는 Goal 값
             if i == 1:
-                c_x = -7.776921883714081
-                c_y = -1.4440172639891982
-                hh_stage.stage_goal = [c_x, c_y, -0.0077281029383004275, 0.999970137766611]
+                c_x = 0.8673037926231272
+                c_y = 0.6789847096279746
+                hh_stage.stage_goal = [c_x, c_y, 0.5252272581623026, 0.8509620010807238]
             elif i == 2:
-                c_x = -7.122999670887405
-                c_y = -2.6559860718234534
-                hh_stage.stage_goal = [c_x, c_y, -0.9999610465174368, 0.008826406276208912]
+                c_x = 2.4281048365148514
+                c_y = -0.30450109620217103
+                hh_stage.stage_goal = [c_x, c_y, 0.7132019226487927, 0.7009586418113879]
             elif i == 3:
-                c_x = -7.122999670887405
-                c_y = -2.6559860718234534
-                hh_stage.stage_goal = [c_x, c_y, -0.9999610465174368, 0.008826406276208912]
+                c_x = 2.1301139575194137
+                c_y = 0.910778201112843
+                hh_stage.stage_goal = [c_x, c_y, -0.9989615637461917, 0.045560884075743345]
             elif i == 4:
-                c_x = -9.222127606429071
-                c_y = -2.76026999206259
-                hh_stage.stage_goal = [c_x, c_y, 0.99996306757952, 0.008594386362984513]
+                c_x = 1.479559515312309
+                c_y = 0.6601177935129655
+                hh_stage.stage_goal = [c_x, c_y, -0.6900241207875856, 0.7237863723028498]
             elif i == 5:
-                c_x = -9.222127606429071
-                c_y = -2.76026999206259
-                hh_stage.stage_goal = [c_x, c_y, 0.99996306757952, 0.008594386362984513]
+                c_x = 1.4957970260123064
+                c_y = 0.010279294385013673
+                hh_stage.stage_goal = [c_x, c_y, -0.6856151411733973, 0.7279642011759799]
             elif i == 6:
-                c_x = -8.912455677606781
-                c_y = -1.4754692363043551
-                hh_stage.stage_goal = [c_x, c_y, -0.0010345824881527646, 0.9999994648193944]
+                c_x = 0.6818180841429795
+                c_y = 0.7990312959474734
+                hh_stage.stage_goal = [c_x, c_y, 0.04102018676016465, 0.9991583179247226]
             elif i == 7:
-                c_x = -8.912455677606781
-                c_y = -1.4754692363043551
-                hh_stage.stage_goal = [c_x, c_y, -0.0010345824881527646, 0.9999994648193944]
+                c_x = 0.6818180841429795
+                c_y = 0.7990312959474734
+                hh_stage.stage_goal = [c_x, c_y, 0.04102018676016465, 0.9991583179247226]
             elif i == 8:
-                c_x = -10.838119082143717
-                c_y = -1.468294866666594
-                hh_stage.stage_goal = [c_x, c_y, 0.0071243708732958745, 0.9999746213477919]
+                c_x = 0.6818180841429795
+                c_y = 0.7990312959474734
+                hh_stage.stage_goal = [c_x, c_y, 0.04102018676016465, 0.9991583179247226]
 
             curr.list_stage.append(hh_stage.stage_goal)
         if(len(curr.list_stage) == 8):
@@ -269,19 +269,19 @@ def goal_def(list_stage):
             clean_pub.publish(clean_pub_msg)
             while(curr.clean_info == "yet"):
                 pass
-            curr.clean_info == "done"
-        if(i>0 and i<7):
+            curr.clean_info == "yet"
+        if(i>0 and i<4):
             clean_pub_msg = "clean"
             clean_pub.publish(clean_pub_msg)
             while(curr.clean_info == "yet"):
                 pass
-            curr.clean_info == "done"
-        if(i == 7):
+            curr.clean_info == "yet"
+        if(i == 4):
             round_pub_msg = "start"
             round_pub.publish(round_pub_msg)
             while(curr.round_info == "yet"):
                 pass  
-            curr.round_info == "done"
+            curr.round_info == "yet"
             round_pub_msg = "stop"
             round_pub.publish(round_pub_msg)
 
@@ -289,7 +289,7 @@ def goal_def(list_stage):
             clean_pub.publish(clean_pub_msg)           
             while(curr.clean_info == "yet"):
                 pass         
-            curr.clean_info == "done"
+            curr.clean_info == "yet"
 
     
     print("c")

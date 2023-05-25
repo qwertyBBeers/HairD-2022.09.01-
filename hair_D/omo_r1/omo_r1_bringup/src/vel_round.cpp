@@ -82,7 +82,6 @@ int main(int argc, char** argv)
 
         // 10초 동안 원을 돌면서 cmd_vel 메시지 발송
         if(check.round_data == "start"){
-            std::cout<<current_time - start_time<<std::endl;
 
             if ((current_time - start_time).toSec() <= 10.0 && check.clean_val == 0)
             {
@@ -90,14 +89,11 @@ int main(int argc, char** argv)
                 // cmd_vel 값 설정
                 cmd_vel.linear.x = linear_speed;
                 cmd_vel.angular.z = angular_speed;
-                std::cout<<cmd_vel.linear.x<<std::endl;
-                std::cout<<cmd_vel.angular.z<<std::endl;
                 // cmd_vel 메시지 발송
                 cmd_vel_pub.publish(cmd_vel);
                 round_msg.data = "yet";
                 round_pub.publish(round_msg);
                 check.pub_val = 1;
-                std::cout<<"11111111111111111111111111111111111111111111111111111111111111111111111111111"<<std::endl;
             }
             else if((current_time - start_time).toSec() >= 10.0 && check.clean_val == 0){
                 cmd_vel.linear.x = 0.0;
@@ -108,20 +104,16 @@ int main(int argc, char** argv)
                     clean_pub.publish(clean_msg);
                     check.pub_val = 0;
                 }
-                std::cout<<"222222222222222222222222222222222222222222222222222222222222222222222222222222"<<std::endl;
             }
 
             else if((current_time - start_time).toSec() <= 5.5 && check.clean_val == 2)
             {
                 cmd_vel.linear.x = 0.0;
                 cmd_vel.angular.z = angular_rotate;
-                std::cout<<cmd_vel.linear.x<<std::endl;
-                std::cout<<cmd_vel.angular.z<<std::endl;
                 // cmd_vel 메시지 발송
                 cmd_vel_pub.publish(cmd_vel);
                 round_msg.data = "yet";
                 round_pub.publish(round_msg);
-                std::cout<<"3333333333333333333333333333333333333333333333333333333333333333333333"<<std::endl;
             }
 
             else if((current_time - start_time).toSec() >= 5.5 && (current_time - start_time).toSec() <= 25.5 && check.clean_val == 2)
@@ -129,14 +121,11 @@ int main(int argc, char** argv)
                 // cmd_vel 값 설정
                 cmd_vel.linear.x = linear_speed;
                 cmd_vel.angular.z = -angular_speed;
-                std::cout<<cmd_vel.linear.x<<std::endl;
-                std::cout<<cmd_vel.angular.z<<std::endl;
                 // cmd_vel 메시지 발송
                 cmd_vel_pub.publish(cmd_vel);
                 round_msg.data = "yet";
                 round_pub.publish(round_msg);
                 check.pub_val = 1;
-                std::cout<<"444444444444444444444444444444444444444444444444444444444444444444444444"<<std::endl;
             }
 
             else if((current_time - start_time).toSec() >= 25.0 && check.clean_val == 2){
@@ -148,7 +137,6 @@ int main(int argc, char** argv)
                     clean_pub.publish(clean_msg);
                     check.pub_val = 0;
                 }
-                std::cout<<"555555555555555555555555555555555555555555555555555555555555555555555555"<<std::endl;
             }
 
             // else if((current_time - start_time).toSec() > 10.0&&(current_time - start_time).toSec() < 15.0)

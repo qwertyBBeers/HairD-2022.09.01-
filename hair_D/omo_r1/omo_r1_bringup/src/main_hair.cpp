@@ -89,6 +89,12 @@ int main(int argc, char** argv)
   ros::init(argc, argv, "main_hair");
   ros::NodeHandle nh;
 
+  // 비동기 스피너 생성
+  ros::AsyncSpinner spinner(2);  // 쓰레드 수를 지정할 수 있음
+
+  // 스피너 시작
+  spinner.start();
+
   ros::ServiceServer service_server = nh.advertiseService("qt_service", qtServiceHandler);
 
   ros::Publisher navStart_pub = nh.advertise<std_msgs::Int32>("nav_start", 1000);
@@ -115,7 +121,8 @@ int main(int argc, char** argv)
         fixStart_pub.publish(fix_msg);
 
         while(con.fix_con == "close"){
-            
+            std::cout<<"tray open wait "<<std::endl;
+            std::cout<<"fix_info: "<<con.fix_con<<std::endl;
         }
       }
 
@@ -215,6 +222,9 @@ int main(int argc, char** argv)
     // ros::spinOnce();
     // rate.sleep();
   }
+
+  // 스피너 정지
+  spinner.stop();
 
   return 0;
 }

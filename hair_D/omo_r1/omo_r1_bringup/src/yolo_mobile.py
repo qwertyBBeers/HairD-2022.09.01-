@@ -50,11 +50,27 @@ def listener():
         #     vel = -0.015
         # else:
         #     vel = 0.0
-        msg.angular.z = ang 
-        msg.linear.x = -0.02
+        if cen_y <200:
+            vel = 0.0
+            ang = 0.0
+        elif cen_y<260 and cen_y>= 200:
+            vel = -0.02
+            if ang > 0:
+                ang = 0.05
+            else:
+                ang = -0.05
+        else:
+            vel = -0.02
+        msg.angular.z = -ang 
+        msg.linear.x = vel
         print(msg)
         print(yolo_info)
         if yolo_info == "detected":
+            cmd_pub.publish(msg)
+            print("pub-ing!")
+        else:
+            msg.angular.z = 0.0
+            msg.linear.x = 0.0
             cmd_pub.publish(msg)
             print("pub-ing!")
         rate.sleep()
