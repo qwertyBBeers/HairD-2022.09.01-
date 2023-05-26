@@ -63,11 +63,12 @@ int main(int argc,char **argv){
     ros::NodeHandle nh;
     ros::Publisher set_position_pub1 =nh.advertise<dynamixel_sdk_examples::SetPosition>("/set_position",10);
     ros::Publisher fix_pub = nh.advertise<std_msgs::String>("fix_info",1000);
+    ros::Publisher close_pub = nh.advertise<std_msgs::String>("yolo_info",1000);
     ros::Subscriber fix_sub = nh.subscribe<std_msgs::String>("fix_start",1000,StartCallback);
     std_msgs::String st;
     dynamixel_sdk_examples::SetPosition set;
     ros::Rate loop_rate(10);
-        
+
 
 
     while(ros::ok()){
@@ -83,7 +84,10 @@ int main(int argc,char **argv){
             Close(set,set_position_pub1);
 
             st.data="close";
-            fix_pub.publish(st);   
+            fix_pub.publish(st);
+            st.data="done"; 
+            close_pub.publish(st);
+  
         }
         
         
