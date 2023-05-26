@@ -16,6 +16,7 @@ int time_count=0;
 int init_position;
 int degree[7]={0,0,0,0,0,0,0};
 int count=0;
+int check_val = 0;
 
 void StartCallback(const std_msgs::String::ConstPtr& msg)
 {
@@ -24,20 +25,24 @@ void StartCallback(const std_msgs::String::ConstPtr& msg)
         stop=0;
         start =1;
         done=0;
+        check_val = 1;
     }
     if(msg->data == "clean"){
         clean =1;
         done=0;
+        check_val = 1;
     }
     if(msg->data == "stop"){
         stop =1;
         start =0;
         done=0;
+        check_val = 1;
     }
     if(msg->data == "empty_start"){
         stop=0;
         empty_start=1;
         done=0;
+        check_val = 1;
     }
 }
 
@@ -482,8 +487,11 @@ void clean_base(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_posit
     }else if(done==1){
 
             ROS_INFO("clean_base_status");
-            st.data="done";
-            clean_pub.publish(st);
+            if(check_val == 1 ){
+                st.data="done";
+                clean_pub.publish(st);
+                check_val = 0;
+            }
             return;
     }
     
@@ -542,8 +550,11 @@ void hair(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_pu
             return;
         }
     }else if(done==1){
-        st.data="done";
-        clean_pub.publish(st);
+        if(check_val == 1 ){
+                st.data="done";
+                clean_pub.publish(st);
+                check_val = 0;
+            }
         clean=0;
         return;
     }
@@ -594,8 +605,11 @@ void empty(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_p
     }else if(done==1){
             
             ROS_INFO("empty done");
-            st.data="done";
-            clean_pub.publish(st);
+            if(check_val == 1 ){
+                st.data="done";
+                clean_pub.publish(st);
+                check_val = 0;
+            }
             start=0;
             stop=0;
             empty_start =0;
@@ -640,8 +654,11 @@ void stop_init(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_positi
     }else if(done==1){
             
             ROS_INFO("stop done");
-            st.data="done";
-            clean_pub.publish(st);
+            if(check_val == 1 ){
+                st.data="done";
+                clean_pub.publish(st);
+                check_val = 0;
+            }
             return;
     }
     
