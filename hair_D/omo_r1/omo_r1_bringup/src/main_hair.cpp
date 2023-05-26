@@ -20,6 +20,7 @@ class robot_con
     int flag = 0;                            //0, 1
     int nav_flag = 0;
     std::string fix_con = "close";         //open, close
+    int flag_val = 0;
 };
 
 robot_con con = robot_con();
@@ -36,6 +37,7 @@ bool qtServiceHandler(omo_r1_bringup::qt_check::Request& req, omo_r1_bringup::qt
       con.qt_con = std::stoi(req.qt_req);
       if(con.qt_con > 0 and con.qt_con < 5){
         con.flag = 1;
+        con.flag_val = 1;
       }
       if(con.qt_con > 10){
         con.flag = 2;
@@ -115,7 +117,7 @@ int main(int argc, char** argv)
   {
     std::cout<<"con_flag: "<<con.flag<<std::endl;
     if (con.flag == 1){
-      if(con.fix_con == "close"){
+      if(con.fix_con == "close" and con.flag_val == 1){
         std_msgs::String fix_msg;
         fix_msg.data = "open";
         fixStart_pub.publish(fix_msg);
@@ -134,6 +136,8 @@ int main(int argc, char** argv)
         std_msgs::String bbangle_msg;
         bbangle_msg.data = "stop";
         bbangleStart_pub.publish(bbangle_msg);
+
+        con.flag_val = 0;
       }
       if (con.nav_con == "done"){
         if(con.yolo_con == "yet"){

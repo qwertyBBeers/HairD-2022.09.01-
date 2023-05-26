@@ -29,7 +29,7 @@ void cleanCallback(const std_msgs::String::ConstPtr& msg)
 {
   check.clean_data = msg->data;
   std::cout<<check.clean_data<<std::endl;
-  if(check.clean_data == "Done"){
+  if(check.clean_data == "done"){
     check.clean_val += 1;
   }
 }

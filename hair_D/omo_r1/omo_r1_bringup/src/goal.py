@@ -225,7 +225,7 @@ def move_to(goal_point):
 
 def goal_def(list_stage):
     goal_test = GoalPose()
-    error = 0.3
+    error = 0.2
 
     for i in range(8):
         stage_check = list_stage[i]
@@ -272,19 +272,19 @@ def goal_def(list_stage):
                 clean_pub_msg = "start"
                 clean_pub.publish(clean_pub_msg)
                 while(curr.clean_info == "yet"):
-                    pass
+                    print("clean wait")
                 curr.clean_info = "yet"
             if(i>0 and i<4):
                 clean_pub_msg = "clean"
                 clean_pub.publish(clean_pub_msg)
                 while(curr.clean_info == "yet"):
-                    pass
+                    print("clean wait")
                 curr.clean_info = "yet"
             if(i == 4):
                 round_pub_msg = "start"
                 round_pub.publish(round_pub_msg)
                 while(curr.round_info == "yet"):
-                    pass  
+                    print("clean wait") 
                 curr.round_info = "yet"
                 round_pub_msg = "stop"
                 round_pub.publish(round_pub_msg)
@@ -292,7 +292,7 @@ def goal_def(list_stage):
                 clean_pub_msg = "stop"
                 clean_pub.publish(clean_pub_msg)           
                 while(curr.clean_info == "yet"):
-                    pass         
+                    print("clean wait")         
                 curr.clean_info = "yet"
 
     

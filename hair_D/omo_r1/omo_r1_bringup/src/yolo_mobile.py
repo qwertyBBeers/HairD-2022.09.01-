@@ -51,7 +51,7 @@ def listener():
         #     vel = -0.015
         # else:
         #     vel = 0.0
-        if cen_y <70:
+        if cen_y <70 and cen_y > 0:
             vel = 0.0
             ang = 0.0
             fix_msg = "close"
