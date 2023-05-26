@@ -28,6 +28,7 @@ def listener():
     rospy.Subscriber("qr",Point,callback)
     rospy.Subscriber("yolo_info",String,yoloInfoCallback)
     cmd_pub = rospy.Publisher('cmd_vel',Twist,queue_size=10)
+    fix_pub = rospy.Publisher('fix_start',String,queue_size=10)
     rate =rospy.Rate(10)
     msg=Twist()
 
@@ -53,6 +54,8 @@ def listener():
         if cen_y <70:
             vel = 0.0
             ang = 0.0
+            fix_msg = "close"
+            fix_pub.publish(fix_msg)
         elif cen_y<200 and cen_y>= 70:
             vel = -0.02
             if ang > 0:
