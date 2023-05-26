@@ -126,7 +126,7 @@ void one(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_p
         ROS_INFO("end");
         
     }
-} // 0 위 , 1 아래         -1400-28  
+} // 0 위 , 1 아래         -1550-31
 void two(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_pub1){
     
 
