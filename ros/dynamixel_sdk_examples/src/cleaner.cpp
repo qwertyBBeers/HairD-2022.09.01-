@@ -11,7 +11,7 @@ int clean=0;
 int empty_start=0;
 int stop=0;
 int done = 0;
-int number;
+int number=0;
 int time_count=0;
 int init_position;
 int degree[7]={0,0,0,0,0,0,0};
@@ -48,7 +48,7 @@ void init(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_pu
     set_position_pub1.publish(set);
 
     set.id = 2;
-    set.position=1500;
+    set.position=1450;
     set_position_pub1.publish(set);
 
     set.id = 3;
@@ -80,7 +80,7 @@ void one(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_p
             time_count=0;
             count++;
 
-            if((init_position-degree[1])<=1100){
+            if((init_position-degree[1])<=950){
                 count=0;
                 number+=1;
                 status=2;
@@ -88,7 +88,7 @@ void one(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_p
                 return;
             }
             else if(count>=0){
-                degree[1] = degree[1]+28;
+                degree[1] = degree[1]+31;
             }
        }
         set.id=1;
@@ -100,7 +100,7 @@ void one(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_p
     else if(status==0){
         ROS_INFO("up");  
         time_count++;
-        init_position=1100;
+        init_position=950;
         if(time_count >=1){
             time_count=0;
             count++;
@@ -113,7 +113,7 @@ void one(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_p
                 return;
             }
             else if(count>=0){
-                degree[1] = degree[1]+28;
+                degree[1] = degree[1]+31;
             }
        }
         set.id=1;
@@ -133,7 +133,7 @@ void two(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_p
     if (status==1){
         ROS_INFO("open");
         time_count++;
-        init_position=1500;
+        init_position=1450;
         if(time_count >=1){
             time_count=0;
             count++;
@@ -145,7 +145,7 @@ void two(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_p
                 return;
             }
             else if(count>=0){
-                degree[2] = degree[2]+26;
+                degree[2] = degree[2]+27;
             }
        }
         set.id=2;
@@ -164,7 +164,7 @@ void two(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_p
             time_count=0;
             count++;
 
-            if((init_position-degree[2])<=1500){
+            if((init_position-degree[2])<=1450){
                
                 count=0;
                 number+=1;
@@ -172,7 +172,7 @@ void two(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_p
                 return;
             }
             else if(count>=0){
-                degree[2] = degree[2]+26;
+                degree[2] = degree[2]+27;
             }
        }
         set.id=2;
@@ -185,7 +185,7 @@ void two(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_p
         ROS_INFO("end");
         
     }
-} // 0 닫힘 , 1 오픈        -1300-26
+} // 0 닫힘 , 1 오픈        -1350-27
 void three(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_pub1){
     
 
@@ -309,12 +309,12 @@ void five(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_
     if (status==1){
         ROS_INFO("down");
         time_count++;
-        init_position=3970; //3480
+        init_position=4000; //3480
         if(time_count >=1){
             time_count=0;
             count++;
 
-            if((init_position-degree[5])<=1370){
+            if((init_position-degree[5])<=0){
                 count=0;
                 number+=1;
                 status=2;
@@ -322,7 +322,7 @@ void five(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_
                 return;
             }
             else if(count>=0){
-                degree[5] = degree[5]+52;
+                degree[5] = degree[5]+80;
             }
        }
         set.id=5;
@@ -334,12 +334,12 @@ void five(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_
     else if(status==0){
         ROS_INFO("up");  
         time_count++;
-        init_position=1370;
+        init_position=0;
         if(time_count >=1){
             time_count=0;
             count++;
 
-            if((init_position+degree[5])>=3970){
+            if((init_position+degree[5])>=4000){
                 
                 count=0;
                 number+=1;
@@ -347,7 +347,7 @@ void five(int status,dynamixel_sdk_examples::SetPosition set,ros::Publisher set_
                 return;
             }
             else if(count>=0){
-                degree[5] = degree[5]+52;
+                degree[5] = degree[5]+80;
             }
        }
         set.id=5;
@@ -491,6 +491,7 @@ void clean_base(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_posit
 }
 
 void hair(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_pub1,std_msgs::String st,ros::Publisher clean_pub){
+
     if(done ==0){
 
         st.data="yet";
@@ -505,41 +506,37 @@ void hair(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_pu
         }
         else if(number==1){
             degree[2]=0;
+            one(0,set,set_position_pub1);
+        }
+        else if(number==2){            //1번 올리고 4번 닫힘
+            degree[1]=0;
             number+=1;
         }
-        else if(number==2){            //1번 올리고 2번 열고 4번 닫힘
-            //ROS_INFO("1,2,4 run");
-            one(0,set,set_position_pub1);
+        else if(number==3){            //1번 올리고 4번 닫힘
+            one(1,set,set_position_pub1);
             two(1,set,set_position_pub1);
-            four(1,set,set_position_pub1);
         }
         else if(number==5){
             degree[1]=0;
             degree[2]=0;
-            degree[4]=0;
-            number+=1;
+            four(1,set,set_position_pub1);
         }
-        else if(number==6){             // 1번 내리고 3번 올리면서 4번 열기
-            //ROS_INFO("1,3,4 run");
-            one(1,set,set_position_pub1);
+        else if(number==6){            // 2번 열고 3번올리고
+            degree[4]=0;
             three(1,set,set_position_pub1);
-            four(0,set,set_position_pub1);
-
         }
-        else if(number==9){
-            degree[1]=0;
+        else if(number==7){            // 2번 열고 3번올리고
             degree[3]=0;
-            degree[4]=0;
             number+=1;
         }
-        else if(number==10){            // 3번 내림
-            //ROS_INFO("3 run");
+        else if(number==8){
             three(0,set,set_position_pub1);
+            four(0,set,set_position_pub1);
         }
         else{
             ROS_INFO("clean done");
-            
             degree[3]=0;
+            degree[4]=0;
             number=0;
             done = 1;
             return;
@@ -560,15 +557,16 @@ void empty(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_p
     if(done==0){
         st.data="yet";
         clean_pub.publish(st);
-        if(number==0){              //2번 4번 열기
-            //ROS_INFO("number0");
-            two(1,set,set_position_pub1);
+        if(number==0){              
+            
             four(0,set,set_position_pub1);
         }
-        else if(number==2){         // 아래로 기울이기
-            //ROS_INFO("number2");
-            degree[2]=0;
+        else if(number==1){         
+            two(1,set,set_position_pub1);
             degree[4]=0;
+        }
+        else if(number==2){         // 아래로 기울이기
+            degree[2]=0;
             six(2,set,set_position_pub1);
         }
         else if(number>=3 && number<100){         // 대기
@@ -576,17 +574,19 @@ void empty(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_position_p
             degree[6]=0;
             number+=1;
         }
-        else if(number==100){         // 초기 상태
+        else if(number==100){        
             ROS_INFO("number : %d",number);
-            six(1,set,set_position_pub1);       //  아래에서 평평하게 해야함!!! -수정필요
+            six(1,set,set_position_pub1);       
         }
-        else if(number==101){              //2번 4번 닫기
+        else if(number==101){             
             degree[6]=0;
             two(0,set,set_position_pub1);
+        }
+        else if(number==102){         
+            degree[2]=0;
             four(1,set,set_position_pub1);
         }
         else{
-            degree[2]=0;
             degree[4]=0;
             number=0;
             done=1;
@@ -625,12 +625,14 @@ void stop_init(dynamixel_sdk_examples::SetPosition set,ros::Publisher set_positi
         }
         else if(number==5){    //2번 4번 닫기 
             two(0,set,set_position_pub1);
+        }
+         else if(number==6){    //2번 4번 닫기 
+            degree[2]=0;
             four(1,set,set_position_pub1);
-            
         }
         else {         //초기화
 
-            degree[2]=0;
+            
             degree[4]=0;
             number=0;
             done=1;
@@ -662,8 +664,8 @@ int main(int argc,char **argv){
         
 
     while(ros::ok()){
-        //ROS_ERROR("done %d",done);
-
+        
+        
         if(stop == 1){              //초기 상태로 stop눌렀을때!!!
             ROS_INFO("stop");
             //init(set,set_position_pub1,st,clean_pub);  //여기 바꿔야함!!! clean_base 에서 천천히 올라가는거 -> 충돌안나게 하려면 어떻게 할까요??? 다른 함수 만들든지해야할듯
@@ -691,11 +693,8 @@ int main(int argc,char **argv){
                 }
                 
             }
-       
+        
         }
-        
-        
-            
         
         
         ros::spinOnce();
