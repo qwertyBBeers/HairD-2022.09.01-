@@ -25,6 +25,7 @@ class con:
         self.clean_flag = 0
         self.round_info = 'yet'
         self.round_flag = 0
+        self.qt_num = 0
 
 
 def callback(msg):
@@ -40,6 +41,7 @@ def roundInfoCallback(msg):
 def callbackRoom(data):
     stage = data.data
     print("stage: {} ", stage)
+    curr.qt_num = stage
 
     # if(stage > 0 and stage < 5):
     #     curr.flag = 1
@@ -57,10 +59,10 @@ def callbackRoom(data):
         curr.list_stage = []
 
         if stage == 1:
-            c_x = 0.6106761024768365
+            c_x = 0.6106761024768365                 #shophong 
             c_y = 0.3714892187985502
-        elif stage == 2:
-            c_x = 2.032741242737444
+        elif stage == 2:                                
+            c_x = 2.032741242737444                  #5gong
             c_y = 0.13712451358191208
         elif stage == 3:
             c_x = 1
@@ -264,33 +266,34 @@ def goal_def(list_stage):
 
         while((abs(current_pose.pose.pose.position.x - goal_test.x) > error) or (abs(current_pose.pose.pose.position.y - goal_test.y) > error)):
             pass
-        print("{}  :---------------------", i)
-        if(i == 0):
-            clean_pub_msg = "start"
-            clean_pub.publish(clean_pub_msg)
-            while(curr.clean_info == "yet"):
-                pass
-            curr.clean_info = "yet"
-        if(i>0 and i<4):
-            clean_pub_msg = "clean"
-            clean_pub.publish(clean_pub_msg)
-            while(curr.clean_info == "yet"):
-                pass
-            curr.clean_info = "yet"
-        if(i == 4):
-            round_pub_msg = "start"
-            round_pub.publish(round_pub_msg)
-            while(curr.round_info == "yet"):
-                pass  
-            curr.round_info = "yet"
-            round_pub_msg = "stop"
-            round_pub.publish(round_pub_msg)
+        
+        if(curr.qt_num < 5 and curr.qt_num > 0):
+            if(i == 0):
+                clean_pub_msg = "start"
+                clean_pub.publish(clean_pub_msg)
+                while(curr.clean_info == "yet"):
+                    pass
+                curr.clean_info = "yet"
+            if(i>0 and i<4):
+                clean_pub_msg = "clean"
+                clean_pub.publish(clean_pub_msg)
+                while(curr.clean_info == "yet"):
+                    pass
+                curr.clean_info = "yet"
+            if(i == 4):
+                round_pub_msg = "start"
+                round_pub.publish(round_pub_msg)
+                while(curr.round_info == "yet"):
+                    pass  
+                curr.round_info = "yet"
+                round_pub_msg = "stop"
+                round_pub.publish(round_pub_msg)
 
-            clean_pub_msg = "stop"
-            clean_pub.publish(clean_pub_msg)           
-            while(curr.clean_info == "yet"):
-                pass         
-            curr.clean_info = "yet"
+                clean_pub_msg = "stop"
+                clean_pub.publish(clean_pub_msg)           
+                while(curr.clean_info == "yet"):
+                    pass         
+                curr.clean_info = "yet"
 
     
     print("c")
