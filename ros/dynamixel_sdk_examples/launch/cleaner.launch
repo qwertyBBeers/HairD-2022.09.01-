@@ -1,0 +1,13 @@
+<launch>
+
+
+    <node name="read_write_node" pkg="dynamixel_sdk_examples"  type="read_write_node" output="screen" >
+
+	</node>
+    
+    <node name="cleaner" pkg="dynamixel_sdk_examples"  type="cleaner" output="screen" >
+
+	</node>
+
+	
+</launch>

@@ -1,0 +1,12 @@
+<launch>
+
+	<node name="fix" pkg="dynamixel_sdk_examples"  type="fix" output="screen" >
+
+	</node>
+
+    <node name="read_tray" pkg="dynamixel_sdk_examples"  type="read_tray" output="screen" >
+
+	</node>
+
+	
+</launch>

@@ -98,6 +98,7 @@ target_link_libraries(fix ${catkin_LIBRARIES})
 ################################################################################
 ## Mark executables for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_executables.html
-install(TARGETS read_write_node sync_read_write_node bulk_read_write_node indirect_address_node
+install(
+  TARGETS read_write_node sync_read_write_node bulk_read_write_node indirect_address_node
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
