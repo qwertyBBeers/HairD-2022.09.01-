@@ -183,9 +183,9 @@ int main(int argc, char** argv)
           con.qt_con = 0;
           navStart_pub.publish(nav_msg);
 
-          // std_msgs::String fix_msg;
-          // fix_msg.data = "close";
-          // fixStart_pub.publish(fix_msg);
+          std_msgs::String fix_msg;
+          fix_msg.data = "close";
+          fixStart_pub.publish(fix_msg);
 
           while(con.fix_con == "open"){
             

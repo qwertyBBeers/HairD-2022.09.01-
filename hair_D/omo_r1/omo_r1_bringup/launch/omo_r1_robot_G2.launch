@@ -32,12 +32,12 @@
   </node>
   <node pkg="omo_r1_bringup" type="main_hair" name="main_hair" output="screen">
   </node>
-  <!-- <node pkg="omo_r1_bringup" type="emptying_goal.py" name="emptying_goal" output="screen">
+  <node pkg="omo_r1_bringup" type="emptying_goal.py" name="emptying_goal" output="screen">
   </node>
   <node pkg="omo_r1_bringup" type="emptying" name="emptying" output="screen">
   </node>
   <node pkg="omo_r1_bringup" type="yolo_mobile.py" name="yolo_mobile" output="screen">
-  </node> -->
+  </node>
   <node pkg="omo_r1_bringup" type="vel_round" name="vel_round" output="screen">
   </node>
   <node pkg="omo_r1_bringup" type="costmap_clear" name="costmap_clear" output="screen">

@@ -8,6 +8,11 @@ cen_x=0
 cen_y=0
 yolo_info = "yet"
 
+class con:
+    def __init__(self):
+        self.flag = 0
+
+
 def callback(data):
     # rospy.loginfo("centerpoint is %d %d ",data.x,data.y)
     global cen_x
@@ -21,6 +26,8 @@ def yoloInfoCallback(data):
     # rospy.loginfo("centerpoint is %d %d ",data.x,data.y)
     global yolo_info
     yolo_info=data.data
+    if(yolo_info == 'done'):
+       curr.flag = 0
 
 
 def listener():
@@ -28,7 +35,8 @@ def listener():
     rospy.Subscriber("qr",Point,callback)
     rospy.Subscriber("yolo_info",String,yoloInfoCallback)
     cmd_pub = rospy.Publisher('cmd_vel',Twist,queue_size=10)
-    fix_pub = rospy.Publisher('fix_start',String,queue_size=10)
+    #fix_pub = rospy.Publisher('fix_start',String,queue_size=10)
+    docking_pub = rospy.Publisher('docking_info',String,queue_size=10)
     rate =rospy.Rate(10)
     msg=Twist()
 
@@ -54,8 +62,10 @@ def listener():
         if cen_y <70 and cen_y > 0:
             vel = 0.0
             ang = 0.0
-            fix_msg = "close"
-            fix_pub.publish(fix_msg)
+            curr.flag += 1
+            if(curr.flag == 1):
+                docking_msg = "done"
+                docking_pub.publish(docking_msg)
         elif cen_y<200 and cen_y>= 70:
             vel = -0.02
             if ang > 0:
@@ -80,4 +90,5 @@ def listener():
 
 if __name__ == '__main__':
     
+    curr = con()
     listener()
