@@ -308,8 +308,8 @@ int main (int argc, char** argv)
 	ros::Publisher imu_data_pub = nh.advertise<sensor_msgs::Imu>("imu/data", 10);
 	
 	//IMU Service///////////////////////////////////////////////////////////////////////////////////////////////
-    	ros::NodeHandle sh;
-    	all_data_reset_service = sh.advertiseService("all_data_reset_cmd", All_Data_Reset_Command);
+    ros::NodeHandle sh;
+    all_data_reset_service = sh.advertiseService("all_data_reset_cmd", All_Data_Reset_Command);
 	euler_angle_init_service = sh.advertiseService("euler_angle_init_cmd", Euler_Angle_Init_Command);
 	euler_angle_reset_service = sh.advertiseService("euler_angle_reset_cmd", Euler_Angle_Reset_Command);
 	pose_velocity_reset_service = sh.advertiseService("pose_velocity_reset_cmd", Pose_Velocity_Reset_Command);
@@ -387,7 +387,7 @@ int main (int argc, char** argv)
 				q.setRPY(_pIMU_data.dEuler_angle_Roll, _pIMU_data.dEuler_angle_Pitch, _pIMU_data.dEuler_angle_Yaw);
 				transform.setRotation(q);
 				//br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "base_link", "imu_link"));
-				br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), tf_prefix_ + "/base_footprint", tf_prefix_ + "imu_link"));
+				br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), tf_prefix_ + "/base_link", tf_prefix_ + "imu_link"));
 			}
 
 
