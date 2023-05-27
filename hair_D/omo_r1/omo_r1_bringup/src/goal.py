@@ -225,7 +225,7 @@ def move_to(goal_point):
 
 def goal_def(list_stage):
     goal_test = GoalPose()
-    error = 0.2
+    error = 0.3
 
     for i in range(8):
         stage_check = list_stage[i]
