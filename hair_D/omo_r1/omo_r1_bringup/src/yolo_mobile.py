@@ -59,14 +59,14 @@ def listener():
         #     vel = -0.015
         # else:
         #     vel = 0.0
-        if cen_y <70 and cen_y > 0:
+        if cen_y <79 and cen_y > 0:
             vel = 0.0
             ang = 0.0
             curr.flag += 1
             if(curr.flag == 1):
                 docking_msg = "done"
                 docking_pub.publish(docking_msg)
-        elif cen_y<200 and cen_y>= 70:
+        elif cen_y<200 and cen_y>= 79:
             vel = -0.02
             if ang > 0:
                 ang = 0.05

@@ -1,5 +1,6 @@
 #include <ros/ros.h>
 #include <std_msgs/String.h>
+#include <geometry_msgs/Twist.h>
 #include <iostream>
 #include <string>
 #include <omo_r1_bringup/yolo_check.h>
@@ -7,13 +8,12 @@
 #include "std_msgs/Int32.h"
 #include <omo_r1_bringup/qt_check.h>
 
-
 class robot_con
 {
   public:
     int qt_con= 1;
     std::string qt_con_str = "";                           //1, 2, 3
-    std::string nav_con = "before";          //before, proceeding, done
+    std::string nav_con = "before";   //before, proceeding, done
     std::string bbangle_con = "before";      //before, proceeding, done
     std::string yolo_con = "before";         //yet, detected, done
     std::string yolo_check = "stop";         //stop, start
@@ -21,10 +21,10 @@ class robot_con
     int nav_flag = 0;
     std::string fix_con = "close";         //open, close
     int flag_val = 0;
+    int flag_time = 0;
 };
 
 robot_con con = robot_con();
-
 
 // 서비스 핸들러 함수
 bool qtServiceHandler(omo_r1_bringup::qt_check::Request& req, omo_r1_bringup::qt_check::Response& res)
@@ -38,6 +38,7 @@ bool qtServiceHandler(omo_r1_bringup::qt_check::Request& req, omo_r1_bringup::qt
       if(con.qt_con > 0 and con.qt_con < 5){
         con.flag = 1;
         con.flag_val = 1;
+        con.flag_time = 1;
       }
       if(con.qt_con > 10){
         con.flag = 2;
@@ -103,6 +104,7 @@ int main(int argc, char** argv)
   ros::Publisher bbangleStart_pub = nh.advertise<std_msgs::String>("bbangle_start", 1000);
   ros::Publisher yoloStart_pub = nh.advertise<std_msgs::String>("yolo_start", 1000);
   ros::Publisher fixStart_pub = nh.advertise<std_msgs::String>("fix_start", 1000);
+  ros::Publisher cmd_vel_pub = nh.advertise<geometry_msgs::Twist>("cmd_vel", 10);
 
 
   //ros::Subscriber qt_sub = nh.subscribe("qt_info", 1000, qtCallback);
@@ -111,10 +113,14 @@ int main(int argc, char** argv)
   ros::Subscriber yolo_sub = nh.subscribe("yolo_info", 1000, yoloCallback);
   ros::Subscriber fix_sub = nh.subscribe("fix_info", 1000, fixCallback);
 
-  
+  geometry_msgs::Twist cmd_vel;
+
+  ros::Time start_time = ros::Time::now();
+
   ros::Rate loop_rate(10);
   while (ros::ok())
   {
+    ros::Time current_time = ros::Time::now();
     std::cout<<"con_flag: "<<con.flag<<std::endl;
     if (con.flag == 1){
       if(con.fix_con == "close" and con.flag_val == 1){
@@ -125,10 +131,27 @@ int main(int argc, char** argv)
         while(con.fix_con == "close"){
             std::cout<<"tray open wait "<<std::endl;
             std::cout<<"fix_info: "<<con.fix_con<<std::endl;
+            start_time = ros::Time::now();
+        }
+      }
+      if(con.flag_time == 1){
+        if((current_time - start_time).toSec()<= 2.0){
+          cmd_vel.linear.x = 0.3;
+          cmd_vel.angular.z = 0;
+          // cmd_vel 메시지 발송
+          cmd_vel_pub.publish(cmd_vel);
+        }
+        else{
+          cmd_vel.linear.x = 0.0;
+          cmd_vel.angular.z = 0.0;
+          // cmd_vel 메시지 발송
+          cmd_vel_pub.publish(cmd_vel);
+          con.flag_time = 0;
         }
       }
 
-      if (con.nav_con == "before" && con.nav_flag == 0){                                                           //before cleaning
+
+      if (con.nav_con == "before" && con.nav_flag == 0 && con.flag_time == 0){                                                           //before cleaning
         std_msgs::Int32 nav_msg;
         nav_msg.data = con.qt_con;
         navStart_pub.publish(nav_msg); 
@@ -139,6 +162,7 @@ int main(int argc, char** argv)
 
         con.flag_val = 0;
       }
+      
       if (con.nav_con == "done"){
         if(con.yolo_con == "yet"){
           std_msgs::Int32 nav_msg;

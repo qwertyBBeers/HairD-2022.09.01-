@@ -145,13 +145,13 @@
     </inertial>
   </link> -->
 
-  <!-- <joint name="imu_joint" type="fixed">
+  <joint name="imu_joint" type="fixed">
     <parent link="base_link"/>
     <child link="imu_link"/>
-    <origin xyz="0.0 0 0.190" rpy="0 0 1.5758"/>
+    <origin xyz="0.183 0 0.190" rpy="0 0 0"/>
   </joint>
 
-  <link name="imu_link"/> -->
+  <link name="imu_link"/>
 
   <joint name="scan_joint" type="fixed">
     <parent link="base_link"/>

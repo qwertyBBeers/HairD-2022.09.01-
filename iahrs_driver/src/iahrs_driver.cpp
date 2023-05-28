@@ -29,7 +29,7 @@
 #include <dirent.h>
 #include <signal.h>
 
-#define SERIAL_PORT		"/dev/IMU"
+#define SERIAL_PORT		"/dev/ttyUSB2"
 #define SERIAL_SPEED		B115200
 
 typedef struct IMU_DATA
@@ -382,12 +382,12 @@ int main (int argc, char** argv)
 			//Publish tf
 			if(m_bSingle_TF_option)
 			{
-				transform.setOrigin( tf::Vector3(0.0, 0.0, 0.2) );
+				transform.setOrigin( tf::Vector3(0.19, 0.0, 0.2) );
 				tf::Quaternion q;
 				q.setRPY(_pIMU_data.dEuler_angle_Roll, _pIMU_data.dEuler_angle_Pitch, _pIMU_data.dEuler_angle_Yaw);
 				transform.setRotation(q);
 				//br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "base_link", "imu_link"));
-				br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), tf_prefix_ + "/base_link", tf_prefix_ + "imu_link"));
+				//br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), tf_prefix_ + "/base_link", tf_prefix_ + "imu_link"));
 			}
 
 

@@ -58,7 +58,7 @@ int main(int argc, char** argv)
     std_msgs::String clean_msg;
     // 원을 돌기 위한 파라미터 설정
     double circle_radius = 0.55;  // 원의 반지름
-    double linear_speed = M_PI * circle_radius / 12.0;  // 원을 한 바퀴 돌기 위한 선속도
+    double linear_speed = M_PI * circle_radius / 6.0;  // 원을 한 바퀴 돌기 위한 선속도
     double angular_speed = linear_speed / circle_radius;  // 원을 한 바퀴 돌기 위한 각속도
     double angular_rotate = M_PI/rotate_time;
     // 시작 시간 기록
@@ -83,7 +83,7 @@ int main(int argc, char** argv)
         // 10초 동안 원을 돌면서 cmd_vel 메시지 발송
         if(check.round_data == "start"){
 
-            if ((current_time - start_time).toSec() <= 10.0 && check.clean_val == 0)
+            if ((current_time - start_time).toSec() <= 5.0 && check.clean_val == 0)
             {
                 // cmd_vel 메시지 생성
                 // cmd_vel 값 설정
@@ -95,7 +95,7 @@ int main(int argc, char** argv)
                 round_pub.publish(round_msg);
                 check.pub_val = 1;
             }
-            else if((current_time - start_time).toSec() >= 10.0 && check.clean_val == 0){
+            else if((current_time - start_time).toSec() >= 5.0 && check.clean_val == 0){
                 cmd_vel.linear.x = 0.0;
                 cmd_vel.angular.z = 0.0;
                 cmd_vel_pub.publish(cmd_vel);
@@ -106,7 +106,7 @@ int main(int argc, char** argv)
                 }
             }
 
-            else if((current_time - start_time).toSec() <= 5.5 && check.clean_val == 2)
+            else if((current_time - start_time).toSec() < 5.0 && check.clean_val == 2)
             {
                 cmd_vel.linear.x = 0.0;
                 cmd_vel.angular.z = -angular_rotate;
@@ -116,7 +116,7 @@ int main(int argc, char** argv)
                 round_pub.publish(round_msg);
             }
 
-            else if((current_time - start_time).toSec() >= 5.5 && (current_time - start_time).toSec() <= 25.5 && check.clean_val == 2)
+            else if((current_time - start_time).toSec() >= 5.0 && (current_time - start_time).toSec() <= 15.6 && check.clean_val == 2)
             {
                 // cmd_vel 값 설정
                 cmd_vel.linear.x = linear_speed;
@@ -128,7 +128,7 @@ int main(int argc, char** argv)
                 check.pub_val = 1;
             }
 
-            else if((current_time - start_time).toSec() >= 25.0 && check.clean_val == 2){
+            else if((current_time - start_time).toSec() >= 15.6 && check.clean_val == 2){
                 cmd_vel.linear.x = 0.0;
                 cmd_vel.angular.z = 0.0;
                 cmd_vel_pub.publish(cmd_vel);
