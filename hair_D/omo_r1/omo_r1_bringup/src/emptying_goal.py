@@ -81,15 +81,15 @@ def callbackRoom(data):
                 c_y = 1.5209675508127791
                 hh_stage.stage_goal = [c_x, c_y, 0.9999023306507827, 0.013976020861916098]
             elif i == 6:
-                c_x = tray_pose.pose.pose.position.x
+                c_x = tray_pose.pose.pose.position.x + 2.0
                 c_y = tray_pose.pose.pose.position.y
                 hh_stage.stage_goal = [c_x, c_y, tray_pose.pose.pose.orientation.z, tray_pose.pose.pose.orientation.w]
             elif i == 7:
-                c_x = tray_pose.pose.pose.position.x
+                c_x = tray_pose.pose.pose.position.x + 2.0
                 c_y = tray_pose.pose.pose.position.y
                 hh_stage.stage_goal = [c_x, c_y, tray_pose.pose.pose.orientation.z, tray_pose.pose.pose.orientation.w]
             elif i == 8:
-                c_x = tray_pose.pose.pose.position.x
+                c_x = tray_pose.pose.pose.position.x + 2.0
                 c_y = tray_pose.pose.pose.position.y
                 hh_stage.stage_goal = [c_x, c_y, tray_pose.pose.pose.orientation.z, tray_pose.pose.pose.orientation.w]
 
