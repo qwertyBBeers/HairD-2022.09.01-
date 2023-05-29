@@ -22,6 +22,7 @@ class robot_con
     int flag_val = 0;
     std::string yolo_con = "before";         //yet, detected, done
     std::string yolo_check = "stop";         //stop, start
+    int flag_back = 0;
 };
 
 robot_con con = robot_con();
@@ -146,7 +147,25 @@ int main(int argc, char** argv)
         navStart_pub.publish(nav_msg);
         con.flag_val = 0;
       }
-      if (con.nav_con == "done"){
+      if(con.nav_con == "proceeding"){
+        start_time = ros::Time::now();
+      }
+      if (con.nav_con == "done" && con.flag_back == 0){
+        if((current_time - start_time).toSec()<= 2.0){
+          cmd_vel.linear.x = -0.3;
+          cmd_vel.angular.z = 0;
+          // cmd_vel 메시지 발송
+          cmd_vel_pub.publish(cmd_vel);
+        }
+        else{
+          cmd_vel.linear.x = 0.0;
+          cmd_vel.angular.z = 0.0;
+          // cmd_vel 메시지 발송
+          cmd_vel_pub.publish(cmd_vel);
+          con.flag_back = 1;
+        }
+      }     
+      if (con.nav_con == "done" && con.flag_back == 1){
         if(con.yolo_con == "yet"){
           std_msgs::Int32 nav_msg;
           nav_msg.data = 10;
@@ -187,6 +206,7 @@ int main(int argc, char** argv)
           }
           con.flag = 0; 
           con.nav_flag = 0; 
+          con.flag_back = 0;
         }
         else{
           std_msgs::Int32 nav_msg;

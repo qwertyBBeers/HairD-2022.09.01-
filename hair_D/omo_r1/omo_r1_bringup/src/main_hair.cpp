@@ -163,6 +163,10 @@ int main(int argc, char** argv)
 
         con.flag_val = 0;
       }
+      if(con.nav_con == "proceeding"){
+        start_time = ros::Time::now();
+      }
+
       if (con.nav_con == "done" && con.flag_back == 0){
         if((current_time - start_time).toSec()<= 2.0){
           cmd_vel.linear.x = -0.3;
@@ -180,7 +184,6 @@ int main(int argc, char** argv)
       }
       if (con.nav_con == "done" && con.flag_back == 1){
         if(con.yolo_con == "yet"){
-          con.flag_back = 0;
           std_msgs::Int32 nav_msg;
           nav_msg.data = 10;
           con.qt_con = 10;
@@ -195,7 +198,6 @@ int main(int argc, char** argv)
           yoloStart_pub.publish(yolo_msg);
         }
         else if(con.yolo_con == "detected"){
-          con.flag_back = 0;
           std_msgs::Int32 nav_msg;
           nav_msg.data = 10;
           con.qt_con = 10;
@@ -210,7 +212,6 @@ int main(int argc, char** argv)
           yoloStart_pub.publish(yolo_msg);
         }
         else if(con.yolo_con == "done"){
-          con.flag_back = 0;
           std_msgs::String bbangle_msg;
           bbangle_msg.data = "stop";
           bbangleStart_pub.publish(bbangle_msg);
@@ -234,6 +235,7 @@ int main(int argc, char** argv)
           }
           con.flag = 0; 
           con.nav_flag = 0; 
+          con.flag_back = 0;
         }
         else{
           std_msgs::Int32 nav_msg;
