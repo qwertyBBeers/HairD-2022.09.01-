@@ -26,6 +26,7 @@ class con:
         self.round_info = 'yet'
         self.round_flag = 0
         self.qt_num = 0
+        self.flag_tray_pose = 0
 
 
 def callback(msg):
@@ -43,19 +44,13 @@ def callbackRoom(data):
     print("stage: {} ", stage)
     curr.qt_num = stage
 
-    # if(stage > 0 and stage < 5):
-    #     curr.flag = 1
+    if (stage < 5 and stage > 0 and curr.flag_tray_pose == 0):
+        tray_pose = current_pose
 
-    # if (curr.flag == 0):
-    #     if (stage == 0):
-    #         nav_info_msg = "before"
-    #         main_pub.publish(nav_info_msg)
-    #     elif (stage == 10):
-    #         nav_info_msg = "done"
-    #         main_pub.publish(nav_info_msg)
     print("flag: ",curr.flag)
     if(curr.flag == 0 and stage < 5 and stage > 0):
         #목적지 순서
+        curr.flag_tray_pose = 1
         curr.list_stage = []
 
         if stage == 1:
@@ -92,17 +87,17 @@ def callbackRoom(data):
                 c_y_ = c_y
                 hh_stage.stage_goal = [c_x_, c_y_, -0.6933633504018728, 0.7205881377871063]
             elif i == 6:
-                c_x_ = c_x - 1.0
-                c_y_ = c_y + gap
-                hh_stage.stage_goal = [c_x_, c_y_, 0.025430730456035645, 0.9996765866761472]
+                c_x_ = tray_pose.pose.pose.position.x + 0.7
+                c_y_ = tray_pose.pose.pose.position.y
+                hh_stage.stage_goal = [c_x_, c_y_, tray_pose.pose.pose.orientation.z, tray_pose.pose.pose.orientation.w]
             elif i == 7:
-                c_x_ = c_x - 1.0
-                c_y_ = c_y + gap
-                hh_stage.stage_goal = [c_x_, c_y_, 0.025430730456035645, 0.9996765866761472]
+                c_x_ = tray_pose.pose.pose.position.x + 0.7
+                c_y_ = tray_pose.pose.pose.position.y
+                hh_stage.stage_goal = [c_x_, c_y_, tray_pose.pose.pose.orientation.z, tray_pose.pose.pose.orientation.w]
             elif i == 8:
-                c_x_ = c_x - 1.0
-                c_y_ = c_y + gap
-                hh_stage.stage_goal = [c_x_, c_y_, 0.025430730456035645, 0.9996765866761472]
+                c_x_ = tray_pose.pose.pose.position.x + 0.7
+                c_y_ = tray_pose.pose.pose.position.y
+                hh_stage.stage_goal = [c_x_, c_y_, tray_pose.pose.pose.orientation.z, tray_pose.pose.pose.orientation.w]
 
             curr.list_stage.append(hh_stage.stage_goal)
         if(len(curr.list_stage) == 8):
@@ -302,12 +297,14 @@ def goal_def(list_stage):
     curr.flag = 0
     curr.listFlag = 0
     curr.count += 1
+    curr.flag_tray_pose = 0
 
     
     
 
 if __name__=='__main__':
     current_pose = PoseWithCovarianceStamped()
+    tray_pose = PoseWithCovarianceStamped()
     rospy.init_node('map_navigation_lis', anonymous=True)
 
     curr = con()
