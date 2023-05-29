@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     QString fontPath = ":/fonts/Binggrae_Bold.ttf";
     int fontId = QFontDatabase::addApplicationFont(fontPath);
     QString fontFamily = QFontDatabase::applicationFontFamilies(fontId).at(0);
-    QFont font(fontFamily, 12); // 글꼴 이름과 크기를 지정합니다.
+    QFont font(fontFamily); // 글꼴 이름과 크기를 지정합니다.
     QApplication::setFont(font);
 
 //    QFontDatabase::addApplicationFont(":/fonts/Binggrae.ttf");

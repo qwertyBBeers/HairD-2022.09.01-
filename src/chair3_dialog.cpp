@@ -29,6 +29,8 @@ void Chair3_Dialog::spinOnce()
 void Chair3_Dialog::on_cleanbtn_clicked()
 {
 
+    ui->cleanbtn->setStyleSheet("QPushButton { color : #506975; background: white; border-width: 2px; border-radius: 10px; }"
+                                "QPushButton:pressed { background-color: #536a77; color:white; border-width: 2px; border-radius: 10px; }");
     captin_qt_pkg::qt_check srv;
     srv.request.qt_req = "3";
     client_.call(srv);
@@ -38,6 +40,8 @@ void Chair3_Dialog::on_cleanbtn_clicked()
 
 void Chair3_Dialog::on_movebtn_clicked()
 {
+    ui->movebtn->setStyleSheet("QPushButton { color : #506975; background: white; border-width: 2px; border-radius: 10px; }"
+                                "QPushButton:pressed { background-color: #536a77; color:white; border-width: 2px; border-radius: 10px; }");
     captin_qt_pkg::qt_check srv;
     srv.request.qt_req = "33";
     client_.call(srv);

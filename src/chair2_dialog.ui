@@ -30,7 +30,7 @@ border-width:1px;</string>
    </property>
    <property name="font">
     <font>
-     <pointsize>12</pointsize>
+     <pointsize>20</pointsize>
      <weight>50</weight>
      <bold>false</bold>
     </font>
@@ -68,14 +68,14 @@ border-radius: 10px;
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font:10pt;
+    <string notr="true">font:15pt;
 color : white;
 background: #506975;
 border : 0pt;
 border-radius: 10px;</string>
    </property>
    <property name="text">
-    <string>취소</string>
+    <string>닫기</string>
    </property>
   </widget>
   <widget class="QLabel" name="label">
@@ -89,7 +89,7 @@ border-radius: 10px;</string>
    </property>
    <property name="font">
     <font>
-     <pointsize>15</pointsize>
+     <pointsize>30</pointsize>
      <weight>75</weight>
      <italic>false</italic>
      <bold>true</bold>
@@ -99,7 +99,7 @@ border-radius: 10px;</string>
     <enum>Qt::LeftToRight</enum>
    </property>
    <property name="styleSheet">
-    <string notr="true">font:15pt;
+    <string notr="true">font:30pt;
 font:bold;
 color : white;
 border:false;
@@ -124,7 +124,7 @@ border:false;
    </property>
    <property name="font">
     <font>
-     <pointsize>12</pointsize>
+     <pointsize>20</pointsize>
      <weight>50</weight>
      <bold>false</bold>
     </font>

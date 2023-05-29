@@ -30,7 +30,7 @@ border-width:1px;</string>
    </property>
    <property name="font">
     <font>
-     <pointsize>10</pointsize>
+     <pointsize>20</pointsize>
     </font>
    </property>
    <property name="layoutDirection">
@@ -64,7 +64,7 @@ border: none;</string>
    </property>
    <property name="font">
     <font>
-     <pointsize>8</pointsize>
+     <pointsize>15</pointsize>
     </font>
    </property>
    <property name="styleSheet">
@@ -91,7 +91,7 @@ border: none;
    </property>
    <property name="font">
     <font>
-     <pointsize>8</pointsize>
+     <pointsize>15</pointsize>
     </font>
    </property>
    <property name="styleSheet">
