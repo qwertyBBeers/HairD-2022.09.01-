@@ -7,7 +7,7 @@
 #include <omo_r1_bringup/navigation_check.h>
 #include "std_msgs/Int32.h"
 #include <omo_r1_bringup/qt_check.h>
-
+//hmue
 class robot_con
 {
   public:
