@@ -23,6 +23,7 @@ class con:
         self.listFlag = 0
         self.count = 0
         self.arm_info = 0
+        self.flag_tray_pose = 0
 
 
 def callback(msg):
@@ -37,13 +38,14 @@ def cleanInfoCallback(msg):
 def callbackRoom(data):
     stage = data.data
     print("stage: {} ", stage)
-    if (stage == 100 and curr.flag == 0):
+    if (stage == 100 and curr.flag_tray_pose == 0):
         tray_pose = current_pose
 
     print("flag: ",curr.flag)
     
     if(stage == 100 and curr.flag == 0 and curr.count == 0):
         #목적지 순서
+        curr.flag_tray_pose = 1
         curr.list_stage = []
 
         # if stage == 11:
@@ -167,17 +169,17 @@ def goal_def(list_stage):
         
         move_to(goal_test)
 
-        while((abs(current_pose.pose.pose.position.x - goal_test.x) > error) or (abs(current_pose.pose.pose.position.y - goal_test.y) > error)):
+        while((abs(current_pose.pose.pose.position.x - goal_test.x) > error) or (abs(current_pose.pose.pose.position.y - goal_test.y) > error) or (abs(current_pose.pose.pose.orientation.z - goal_test.z) > error)):
             pass
         print("b")
-        if(i == 4):
+        if(i == 3):
             clean_msg = "empty_start"
             clean_pub.publish(clean_msg)
             print("pub arm")
             while(curr.arm_info == "yet"):
                 print("waiting arm")
                 print(curr.arm_info)
-            curr.arm_info == "done"
+            curr.arm_info == "yet"
 
     
     print("c")
@@ -187,6 +189,7 @@ def goal_def(list_stage):
     curr.arm_info = 0
     curr.listFlag = 0
     curr.count += 1
+    curr.flag_tray_pose = 0
 
 
 

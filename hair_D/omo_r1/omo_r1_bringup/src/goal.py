@@ -264,7 +264,7 @@ def goal_def(list_stage):
         
         move_to(goal_test)
 
-        while((abs(current_pose.pose.pose.position.x - goal_test.x) > error) or (abs(current_pose.pose.pose.position.y - goal_test.y) > error)):
+        while((abs(current_pose.pose.pose.position.x - goal_test.x) > error) or (abs(current_pose.pose.pose.position.y - goal_test.y) > error) or (abs(current_pose.pose.pose.orientation.z - goal_test.z) > error)):
             pass
         
         if(curr.qt_num < 5 and curr.qt_num > 0):
