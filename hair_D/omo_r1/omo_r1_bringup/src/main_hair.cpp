@@ -22,6 +22,7 @@ class robot_con
     std::string fix_con = "close";         //open, close
     int flag_val = 0;
     int flag_time = 0;
+    int flag_back = 0;
 };
 
 robot_con con = robot_con();
@@ -162,9 +163,24 @@ int main(int argc, char** argv)
 
         con.flag_val = 0;
       }
-      
-      if (con.nav_con == "done"){
+      if (con.nav_con == "done" && con.flag_back == 0){
+        if((current_time - start_time).toSec()<= 2.0){
+          cmd_vel.linear.x = -0.3;
+          cmd_vel.angular.z = 0;
+          // cmd_vel 메시지 발송
+          cmd_vel_pub.publish(cmd_vel);
+        }
+        else{
+          cmd_vel.linear.x = 0.0;
+          cmd_vel.angular.z = 0.0;
+          // cmd_vel 메시지 발송
+          cmd_vel_pub.publish(cmd_vel);
+          con.flag_back = 1;
+        }
+      }
+      if (con.nav_con == "done" && con.flag_back == 1){
         if(con.yolo_con == "yet"){
+          con.flag_back = 0;
           std_msgs::Int32 nav_msg;
           nav_msg.data = 10;
           con.qt_con = 10;
@@ -179,6 +195,7 @@ int main(int argc, char** argv)
           yoloStart_pub.publish(yolo_msg);
         }
         else if(con.yolo_con == "detected"){
+          con.flag_back = 0;
           std_msgs::Int32 nav_msg;
           nav_msg.data = 10;
           con.qt_con = 10;
@@ -193,6 +210,7 @@ int main(int argc, char** argv)
           yoloStart_pub.publish(yolo_msg);
         }
         else if(con.yolo_con == "done"){
+          con.flag_back = 0;
           std_msgs::String bbangle_msg;
           bbangle_msg.data = "stop";
           bbangleStart_pub.publish(bbangle_msg);
